@@ -1,0 +1,14 @@
+version: "3"
+services:
+  app:
+    image: lapis-api:latest
+    container_name: app
+    restart: always
+    build:
+      # build the image from Dockerfile
+      context: ./lapis-api
+    volumes:
+      - ./lapis-api:/code
+    command: lapis server
+    ports:
+      - "9090:9090"
