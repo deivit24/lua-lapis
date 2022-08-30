@@ -1,1 +1,16 @@
-lapis-api/logs
+
+# Directories
+*_temp
+.sass-cache
+data/backup/*
+data/files/*
+data/secrets/*
+logs
+
+# Files
+*.*~
+*.compiled
+*.out
+
+# Unignore Files
+!.keep
