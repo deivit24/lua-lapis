@@ -60,7 +60,7 @@ end
 function Todo:modify(params, id)
   local todo = self:get_by_id(id)
   if not todo then return nil, "" end
-
+  params.edited = os.time()
   local success, err = todo:update(params)
   return success and todo or nil, "FIXME: " .. tostring(err)
 end
