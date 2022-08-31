@@ -8,6 +8,8 @@ return {
       { "id", types.serial { unique = true, primary_key = true } },
       { "name", types.varchar },
       { "done", types.boolean({ default = false }) },
+      { "created", types.integer({ default = os.time() }) },
+      { "edited", types.integer({ null = true }) }
     })
     db.insert("todo", {
       done = false,
