@@ -24,6 +24,7 @@ function Todo:new(params)
     if not unique then return nil, err end
   end
   -- create todo
+  params.created = os.time()
   local todo = self:create(params)
   return todo and todo or nil, { "err_create_todo", { params.todo } }
 end
@@ -50,7 +51,9 @@ end
 -- @treturn string error
 function Todo:is_unique(name)
   local todo = self:get(name)
-  return not todo and true or nil, "FIXME", todo
+  local err = {}
+  err.message = "Todo already exists"
+  return not todo and true or nil, err, todo
 end
 
 --- Update todo
@@ -76,7 +79,7 @@ function Todo:delete(id)
   end
 
   local success = todo:delete()
-  return success and todo or nil, "FIXME"
+  return success or nil, "FIXME"
 end
 
 return Todo

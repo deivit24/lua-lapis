@@ -17,10 +17,14 @@ export const TodoApi = {
     });
     return res.data;
   },
-  createTodo: async (id, data) => {
-    const res = await apiService.post(`/todos/${id}`, data, {
+  createTodo: async (data) => {
+    const res = await apiService.post(`/todos`, data, {
       headers: dataHeader(),
     });
+    return res.data;
+  },
+  deleteTodo: async (id) => {
+    const res = await apiService.delete(`/todos/${id}`);
     return res.data;
   },
 };

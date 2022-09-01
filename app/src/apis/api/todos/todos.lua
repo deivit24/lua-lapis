@@ -21,6 +21,7 @@ function action:POST()
   -- Validate parameters
   local params = {
     name = self.params.name,
+    done = false
   }
   trim_filter(params)
   assert_valid(params, Todo.valid_record)

@@ -32,6 +32,6 @@ return token
 The secret token should be a random string of characters between 40 and 60 characters in length. Change CHANGE_ME to your secret token. Keep this token extremely safe, it is the backbone of security on Lapis! Right now it's a simple todo app but anyone can build on this whenever you want to start adding authentication. Doesn't do anything for now.
 
 from root run:
-`docker-compose up --build`
+`source dev.sh`
 
 go to `localhost:9090`
