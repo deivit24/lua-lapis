@@ -15,7 +15,7 @@ services:
       - ./data/backup:/pgbackup
     restart: unless-stopped
 
-  # Lapis-chan
+  # Lapis
   app:
     build:
       context: ./app
@@ -29,6 +29,15 @@ services:
       - 9090:9090
     restart: unless-stopped
     command: bash -c "/usr/local/bin/docker-entrypoint.sh ${LAPIS_CONFIG}"
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - ./client/node_modules
 
 volumes:
   postgres:
