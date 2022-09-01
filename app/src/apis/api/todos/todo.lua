@@ -34,13 +34,14 @@ end
 
 function action:DELETE()
 
-  -- Create user
+  -- Delete user
   local todo = assert_error(Todo:delete(self.params.id))
 
   return {
     status = ngx.HTTP_OK,
     json   = {
-      todo = todo,
+      success = true,
+      message = "Succesfully deleted"
     }
   }
 end
