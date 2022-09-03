@@ -1,6 +1,8 @@
 local db     = require("lapis.db")
 local schema = require("lapis.db.schema")
 local types  = schema.types
+local config = require("lapis.config").get()
+local seed   = require("seeder")
 
 return {
   [100] = function()
@@ -10,10 +12,6 @@ return {
       { "done", types.boolean({ default = false }) },
       { "created", types.integer({ default = os.time() }) },
       { "edited", types.integer({ null = true }) }
-    })
-    db.insert("todo", {
-      done = false,
-      name = "Walk the dog"
     })
   end,
   [120] = function()
@@ -43,137 +41,25 @@ return {
       { "post_limit", types.integer { default = 250 } },
       { "archive", types.boolean { default = true } },
     })
-    db.insert("boards", {
-      short_name = "lua",
-      name = "Lua Programing",
-      subtext = "Metatables for President",
-      rules = [[
-        <ul>
-          <li>SFW Board</li>
-          <li>Community board (off-topic is acceptable)</li>
-          <li>Loosely based on LÖVE, Lua and Lapis</li>
-          <li>Be relatively nice</li>
-          <li>Spoiler any lewd content</li>
-        </ul>
-      ]]
+
+    schema.create_table("posts", {
+      { "id", types.serial { unique = true, primary_key = true } },
+      { "board_id", types.integer },
+      { "created_at", schema.types.time { default = os.date() } },
+      { "ip", types.varchar },
+      { "body", types.text { null = true } },
+      { "name", types.varchar { null = true } },
+      { "subject", types.varchar { null = true } },
+      { "password", types.varchar { null = true } },
+      { "file_name", types.varchar { null = true } },
+      { "file_base64", types.text { null = true } },
+      { "file_size", types.integer { null = true } },
+      { "file_spoiler", types.boolean { null = true } },
+      { "banned", types.boolean { default = false } }
     })
-    db.insert("boards", {
-      short_name = "python",
-      name = "Python Programing",
-      subtext = "Complex is better than complicated.",
-      rules = [[
-        <ul>
-          <li>SFW Board</li>
-          <li>Community board (off-topic is acceptable)</li>
-          <li>Be relatively nice</li>
-          <li>Spoiler any lewd content</li>
-        </ul>
-      ]]
-    })
-    db.insert("boards", {
-      short_name = "js",
-      name = "JavaScript",
-      subtext = "If it can be written in javascript, it will be",
-      rules = [[
-        <ul>
-          <li>SFW Board</li>
-          <li>Community board (off-topic is acceptable)</li>
-          <li>Please no "JavaScript is a shitty language"</li>
-          <li>Be relatively nice</li>
-          <li>Spoiler any lewd content</li>
-        </ul>
-      ]]
-    })
-    db.insert("boards", {
-      short_name = "c",
-      name = "C",
-      subtext = "The God Father",
-      rules = [[
-        <ul>
-          <li>SFW Board</li>
-          <li>Community board (off-topic is acceptable)</li>
-          <li>Be relatively nice</li>
-          <li>Spoiler any lewd content</li>
-        </ul>
-      ]]
-    })
-    db.insert("boards", {
-      short_name = "go",
-      name = "Golang",
-      subtext = "For the googlers",
-      rules = [[
-        <ul>
-          <li>SFW Board</li>
-          <li>Community board (off-topic is acceptable)</li>
-          <li>Be relatively nice</li>
-          <li>Spoiler any lewd content</li>
-        </ul>
-      ]]
-    })
-    db.insert("boards", {
-      short_name = "rust",
-      name = "Rust",
-      subtext = "Time to refactor the codebase",
-      rules = [[
-        <ul>
-          <li>SFW Board</li>
-          <li>Community board (off-topic is acceptable)</li>
-          <li>Be relatively nice</li>
-          <li>Spoiler any lewd content</li>
-        </ul>
-      ]]
-    })
-    db.insert("boards", {
-      short_name = "java",
-      name = "Java",
-      subtext = "OOP BABY!!",
-      rules = [[
-        <ul>
-          <li>SFW Board</li>
-          <li>Community board (off-topic is acceptable)</li>
-          <li>Be relatively nice</li>
-          <li>Spoiler any lewd content</li>
-        </ul>
-      ]]
-    })
-    db.insert("boards", {
-      short_name = "c++",
-      name = "C++",
-      subtext = "Let's build a game engine",
-      rules = [[
-        <ul>
-          <li>SFW Board</li>
-          <li>Community board (off-topic is acceptable)</li>
-          <li>Be relatively nice</li>
-          <li>Spoiler any lewd content</li>
-        </ul>
-      ]]
-    })
-    db.insert("boards", {
-      short_name = "php",
-      name = "PHP",
-      subtext = "Please stop",
-      rules = [[
-        <ul>
-          <li>SFW Board</li>
-          <li>Community board (off-topic is acceptable)</li>
-          <li>Be relatively nice</li>
-          <li>Spoiler any lewd content</li>
-        </ul>
-      ]]
-    })
-    db.insert("boards", {
-      short_name = "ts",
-      name = "TypeScript",
-      subtext = "I'm just JavaScript on roids",
-      rules = [[
-        <ul>
-          <li>SFW Board</li>
-          <li>Community board (off-topic is acceptable)</li>
-          <li>Be relatively nice</li>
-          <li>Spoiler any lewd content</li>
-        </ul>
-      ]]
-    })
+
+    if config.site_name == "[DEVEL] Lapis" then
+      seed(db)
+    end
   end
 }

@@ -1,5 +1,6 @@
 local lapis = require("lapis")
 local app = lapis.Application()
+local config = require("lapis.config").get()
 app.include = function(self, a)
   self.__class.include(self, a, nil, self)
 end

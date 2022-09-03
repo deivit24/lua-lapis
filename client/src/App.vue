@@ -3,15 +3,17 @@
     <div>
       <v-system-bar window dark fixed>
         <div class="d-flex justify-center align-center">
-          [<v-icon small>mdi-home</v-icon><span>ALL BOARDS</span>]
+          <v-btn small color="transparent" @click="$router.push('/')">
+            [<v-icon small>mdi-home</v-icon><span>ALL BOARDS</span>]</v-btn
+          >
         </div>
-        <v-spacer></v-spacer>
+        <!-- <v-spacer></v-spacer>
         <div class="d-flex justify-center align-center mr-2">
           [<v-icon small>mdi-theme-light-dark</v-icon><span>LIGHT MODE</span>]
         </div>
         <div class="d-flex justify-center align-center">
           [<v-icon small>mdi-login</v-icon><span>LOGIN</span>]
-        </div>
+        </div> -->
       </v-system-bar>
     </div>
     <v-main class="mt-5">

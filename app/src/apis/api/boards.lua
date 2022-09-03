@@ -10,5 +10,6 @@ app.path          = "/api/boards"
 
 app:match("boards", "", capture({ on_error = handle, json_params(r2(require "apis.api.boards.boards")) }))
 app:match("board", "/:id", capture({ on_error = handle, json_params(r2(require "apis.api.boards.board")) }))
+app:match("posts", "/:board_id/posts", capture({ on_error = handle, json_params(r2(require "apis.api.posts.posts")) }))
 
 return app
