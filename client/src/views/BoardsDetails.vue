@@ -13,8 +13,12 @@
         cols="12"
         md="6"
         id="posts"
-        style="height: 85vh; overflow-y: auto; float: left; position: relative"
+        class="mt-5"
+        style="height: 90vh; overflow-y: auto; float: left; position: relative"
       >
+        <h1 class="text-center">Posts</h1>
+        <p class="text-center mb-2 pb-1">255 Character Limit</p>
+
         <template v-for="post in posts">
           <v-card :key="post.id" class="my-2 mx-auto">
             <v-card-title v-if="post.subject">
@@ -76,9 +80,6 @@ export default {
 </script>
 
 <style>
-#posts {
-  margin-top: 95px;
-}
 #posts::-webkit-scrollbar {
   width: 8px;
 }
