@@ -15,17 +15,165 @@ return {
       done = false,
       name = "Walk the dog"
     })
-    db.insert("todo", {
-      done = false,
-      name = "Feed the cat"
+  end,
+  [120] = function()
+    schema.create_table("users", {
+      { "id", types.serial { unique = true, primary_key = true } },
+      { "username", types.varchar { unique = true } },
+      { "password", types.varchar },
+      { "api_key", types.varchar { default = "00000000-0000-0000-0000-000000000000" } },
+      { "role", types.integer {} }
     })
-    db.insert("todo", {
-      done = false,
-      name = "Take a nap"
+
+    schema.create_table("boards", {
+      { "id", types.serial { unique = true, primary_key = true } },
+      { "short_name", types.varchar { unique = true } },
+      { "name", types.varchar { unique = true } },
+      { "subtext", types.varchar { default = "" } },
+      { "rules", types.text { default = "" } },
+      { "anon_name", types.varchar { default = "Anonymous" } },
+      { "total_posts", types.integer { default = 0 } },
+      { "text_only", types.boolean { default = false } },
+      { "draw", types.boolean { default = false } },
+      { "thread_file", types.boolean { default = true } },
+      { "thread_comment", types.boolean { default = false } },
+      { "thread_file_limit", types.integer { default = 100 } },
+      { "post_file", types.boolean { default = false } },
+      { "post_comment", types.boolean { default = false } },
+      { "post_limit", types.integer { default = 250 } },
+      { "archive", types.boolean { default = true } },
     })
-    db.insert("todo", {
-      done = false,
-      name = "shit"
+    db.insert("boards", {
+      short_name = "lua",
+      name = "Lua Programing",
+      subtext = "Metatables for President",
+      rules = [[
+        <ul>
+          <li>SFW Board</li>
+          <li>Community board (off-topic is acceptable)</li>
+          <li>Loosely based on LÖVE, Lua and Lapis</li>
+          <li>Be relatively nice</li>
+          <li>Spoiler any lewd content</li>
+        </ul>
+      ]]
+    })
+    db.insert("boards", {
+      short_name = "python",
+      name = "Python Programing",
+      subtext = "Complex is better than complicated.",
+      rules = [[
+        <ul>
+          <li>SFW Board</li>
+          <li>Community board (off-topic is acceptable)</li>
+          <li>Be relatively nice</li>
+          <li>Spoiler any lewd content</li>
+        </ul>
+      ]]
+    })
+    db.insert("boards", {
+      short_name = "js",
+      name = "JavaScript",
+      subtext = "If it can be written in javascript, it will be",
+      rules = [[
+        <ul>
+          <li>SFW Board</li>
+          <li>Community board (off-topic is acceptable)</li>
+          <li>Please no "JavaScript is a shitty language"</li>
+          <li>Be relatively nice</li>
+          <li>Spoiler any lewd content</li>
+        </ul>
+      ]]
+    })
+    db.insert("boards", {
+      short_name = "c",
+      name = "C",
+      subtext = "The God Father",
+      rules = [[
+        <ul>
+          <li>SFW Board</li>
+          <li>Community board (off-topic is acceptable)</li>
+          <li>Be relatively nice</li>
+          <li>Spoiler any lewd content</li>
+        </ul>
+      ]]
+    })
+    db.insert("boards", {
+      short_name = "go",
+      name = "Golang",
+      subtext = "For the googlers",
+      rules = [[
+        <ul>
+          <li>SFW Board</li>
+          <li>Community board (off-topic is acceptable)</li>
+          <li>Be relatively nice</li>
+          <li>Spoiler any lewd content</li>
+        </ul>
+      ]]
+    })
+    db.insert("boards", {
+      short_name = "rust",
+      name = "Rust",
+      subtext = "Time to refactor the codebase",
+      rules = [[
+        <ul>
+          <li>SFW Board</li>
+          <li>Community board (off-topic is acceptable)</li>
+          <li>Be relatively nice</li>
+          <li>Spoiler any lewd content</li>
+        </ul>
+      ]]
+    })
+    db.insert("boards", {
+      short_name = "java",
+      name = "Java",
+      subtext = "OOP BABY!!",
+      rules = [[
+        <ul>
+          <li>SFW Board</li>
+          <li>Community board (off-topic is acceptable)</li>
+          <li>Be relatively nice</li>
+          <li>Spoiler any lewd content</li>
+        </ul>
+      ]]
+    })
+    db.insert("boards", {
+      short_name = "c++",
+      name = "C++",
+      subtext = "Let's build a game engine",
+      rules = [[
+        <ul>
+          <li>SFW Board</li>
+          <li>Community board (off-topic is acceptable)</li>
+          <li>Be relatively nice</li>
+          <li>Spoiler any lewd content</li>
+        </ul>
+      ]]
+    })
+    db.insert("boards", {
+      short_name = "php",
+      name = "PHP",
+      subtext = "Please stop",
+      rules = [[
+        <ul>
+          <li>SFW Board</li>
+          <li>Community board (off-topic is acceptable)</li>
+          <li>Be relatively nice</li>
+          <li>Spoiler any lewd content</li>
+        </ul>
+      ]]
+    })
+    db.insert("boards", {
+      short_name = "ts",
+      name = "TypeScript",
+      subtext = "I'm just JavaScript on roids",
+      rules = [[
+        <ul>
+          <li>SFW Board</li>
+          <li>Community board (off-topic is acceptable)</li>
+          <li>Be relatively nice</li>
+          <li>Spoiler any lewd content</li>
+        </ul>
+      ]]
     })
   end
 }
