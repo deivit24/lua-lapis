@@ -11,6 +11,12 @@ export const BoardsApi = {
     });
     return res.data;
   },
+  getBoardPosts: async (id) => {
+    const res = await apiService.get(`/boards/${id}/posts`, {
+      headers: dataHeader(),
+    });
+    return res.data;
+  },
   updateBoard: async (id, data) => {
     const res = await apiService.put(`/boards/${id}`, data, {
       headers: dataHeader(),
@@ -19,6 +25,12 @@ export const BoardsApi = {
   },
   createBoard: async (data) => {
     const res = await apiService.post(`/boards`, data, {
+      headers: dataHeader(),
+    });
+    return res.data;
+  },
+  createBoardPost: async (id, data) => {
+    const res = await apiService.post(`/boards/${id}/posts`, data, {
       headers: dataHeader(),
     });
     return res.data;

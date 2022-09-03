@@ -6,9 +6,14 @@
       </v-col>
       <template v-for="board in boards">
         <v-col cols="12" md="4" :key="board.id" class="pa-2">
-          <v-card height="220">
+          <v-card min-height="220" elevation="0">
             <v-card-text>
-              <h3 class="mb-0">/{{ board.short_name }}/ - {{ board.name }}</h3>
+              <h3
+                class="mb-0 title"
+                @click="$router.push('/boards/' + board.id)"
+              >
+                /{{ board.short_name }}/ - {{ board.name }}
+              </h3>
               <span style="font-size: 0.8em" class="mb-2">
                 {{ board.subtext }}
               </span>
@@ -41,4 +46,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.title:hover {
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.5);
+}
+</style>

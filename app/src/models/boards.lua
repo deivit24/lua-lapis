@@ -89,3 +89,7 @@ function Boards:get_by_id(id)
 end
 
 return Boards
+
+
+-- Get IP from ngx
+-- self.params.ip = self.req.headers["X-Real-IP"] or self.req.remote_addr
