@@ -1,4 +1,5 @@
-local test_image = require("src.utils.images")
+local test_image    = require("src.utils.images")
+local uuid          = require "resty.jit-uuid"
 local default_rules = [[
   <ul>
     <li>SFW Board</li>
@@ -71,7 +72,7 @@ local boards = {
   }
 
 }
-local function seed(db)
+local function seed(db, token, bcrypt)
   for key, value in ipairs(boards) do
     db.insert("boards", {
       short_name = value.short_name,
@@ -94,6 +95,12 @@ local function seed(db)
     subject = "Hello!! Thisis is a subject",
     ip = "123.123.125",
     board_id = 1
+  })
+  db.insert("users", {
+    username = "admin",
+    role = 9,
+    password = bcrypt.digest("admin" .. "david1991" .. token, 12),
+    api_key = uuid(),
   })
 
 

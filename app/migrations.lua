@@ -3,6 +3,7 @@ local schema = require("lapis.db.schema")
 local types  = schema.types
 local config = require("lapis.config").get()
 local seed   = require("seeder")
+local bcrypt = require "bcrypt"
 
 return {
   [100] = function()
@@ -39,7 +40,7 @@ return {
       { "post_file", types.boolean { default = false } },
       { "post_comment", types.boolean { default = false } },
       { "post_limit", types.integer { default = 250 } },
-      { "archive", types.boolean { default = true } },
+      { "archive", types.boolean { default = false } },
     })
 
     schema.create_table("posts", {
@@ -54,12 +55,13 @@ return {
       { "file_name", types.varchar { null = true } },
       { "file_base64", types.text { null = true } },
       { "file_size", types.integer { null = true } },
-      { "file_spoiler", types.boolean { null = true } },
+      { "file_lewd", types.boolean { null = true } },
       { "banned", types.boolean { default = false } }
     })
 
     if config.site_name == "[DEVEL] Lapis" then
-      seed(db)
+      print("SECRET:", config.secret)
+      seed(db, config.secret, bcrypt)
     end
   end
 }
