@@ -26,7 +26,8 @@ function action:POST()
     file_base64 = self.params.file_base64 or nil,
     file_name = self.params.file_name or nil,
     file_size = self.params.file_size or nil,
-    board_id = self.params.board_id
+    board_id = self.params.board_id,
+    created_at = os.date()
   }
   params.ip = self.req.headers["X-Real-IP"] or self.req.remote_addr
   trim_filter(params)

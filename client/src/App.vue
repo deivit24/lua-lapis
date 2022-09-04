@@ -1,19 +1,69 @@
 <template>
   <v-app id="app">
     <div>
-      <v-system-bar window dark fixed>
+      <v-system-bar window fixed>
         <div class="d-flex justify-center align-center">
-          <v-btn small color="transparent" @click="$router.push('/')">
+          <v-btn small depressed color="transparent" @click="$router.push('/')">
             [<v-icon small>mdi-home</v-icon><span>ALL BOARDS</span>]</v-btn
           >
         </div>
-        <!-- <v-spacer></v-spacer>
-        <div class="d-flex justify-center align-center mr-2">
-          [<v-icon small>mdi-theme-light-dark</v-icon><span>LIGHT MODE</span>]
+        <div class="d-flex justify-center align-center" v-if="isAuth">
+          [<v-icon small>mdi-account</v-icon
+          ><span>Hello, {{ authUser.username }}</span
+          >]
+        </div>
+        <v-spacer></v-spacer>
+        <div
+          class="d-flex justify-center align-center"
+          v-if="notifications.length > 0"
+        >
+          [<v-icon :color="notifications[0].type" x-small>mdi-message</v-icon
+          ><span :class="notifications[0].type + '--text'">{{
+            notifications[0].message
+          }}</span
+          >]
+        </div>
+        <v-spacer></v-spacer>
+        <div class="d-flex justify-center align-center" v-if="isAuth">
+          <v-btn small text color="primary">
+            [<v-icon color="primary" small>mdi-clipboard-text-multiple</v-icon
+            ><span>CREATE BOARD</span>]</v-btn
+          >
         </div>
         <div class="d-flex justify-center align-center">
-          [<v-icon small>mdi-login</v-icon><span>LOGIN</span>]
-        </div> -->
+          <v-btn small depressed color="transparent" @click="toggleDarkMode">
+            [<v-icon small>{{ modeIcon }}</v-icon
+            ><span>{{ modeTitle }}</span
+            >]</v-btn
+          >
+        </div>
+        <div class="d-flex justify-center align-center" v-if="!isAuth">
+          <v-btn
+            id="login"
+            small
+            depressed
+            color="transparent"
+            @click="openLogin"
+          >
+            [<v-icon small>mdi-login</v-icon><span>LOGIN</span>]</v-btn
+          >
+        </div>
+        <div class="d-flex justify-center align-center" v-if="isAuth">
+          <v-btn
+            id="logout"
+            small
+            depressed
+            color="transparent"
+            @click="logout"
+          >
+            [<v-icon small>mdi-logout</v-icon><span>LOGOUT</span>]</v-btn
+          >
+        </div>
+        <auth-login
+          :menu-model="menu"
+          :position="postion"
+          @close="menu = false"
+        />
       </v-system-bar>
     </div>
     <v-main class="mt-5">
@@ -23,13 +73,72 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+import AuthLogin from "./components/Auth/AuthLogin";
 export default {
   name: "App",
+  components: {
+    AuthLogin,
+  },
   data: () => ({
-    //
+    darkMode: true,
+    menu: false,
+    postion: { x: 0, y: 0 },
   }),
   created() {
-    this.$vuetify.theme.isDark = true;
+    this.$vuetify.theme.dark = this.darkMode;
+  },
+  watch: {
+    darkMode(val) {
+      this.$vuetify.theme.dark = val;
+    },
+  },
+  computed: {
+    ...mapGetters({
+      authUser: "auth/user",
+      isAuth: "auth/isLoggedIn",
+      notifications: "notifications/notifications",
+    }),
+    modeTitle() {
+      if (this.darkMode) {
+        return "LIGHT MODE";
+      }
+      return "DARK MODE";
+    },
+    modeIcon() {
+      if (this.darkMode) return "mdi-weather-sunny";
+      return "mdi-weather-night";
+    },
+  },
+  methods: {
+    ...mapActions({
+      logoutUser: "auth/logoutUser",
+      addNotification: "notifications/addNotification",
+    }),
+    toggleDarkMode() {
+      this.darkMode = !this.darkMode;
+      this.addNotification({
+        message: `${this.modeTitle} ACTIVATED`,
+        type: "primary",
+      });
+    },
+    logout() {
+      this.logoutUser();
+      this.addNotification({
+        message: `Successfully logged out`,
+        type: "success",
+      });
+    },
+    openLogin() {
+      const el = document.getElementById("login");
+      const rect = el.getBoundingClientRect();
+      const postion = {
+        x: rect.left + window.scrollX,
+        y: rect.top + window.scrollY + 25,
+      };
+      this.postion = postion;
+      this.menu = true;
+    },
   },
 };
 </script>
