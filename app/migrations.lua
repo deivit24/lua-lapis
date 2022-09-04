@@ -46,7 +46,7 @@ return {
     schema.create_table("posts", {
       { "id", types.serial { unique = true, primary_key = true } },
       { "board_id", types.integer },
-      { "created_at", schema.types.time { default = os.date() } },
+      { "created_at", schema.types.time },
       { "ip", types.varchar },
       { "body", types.text { null = true } },
       { "name", types.varchar { null = true } },

@@ -1,5 +1,5 @@
 import { apiService } from "@/services/api";
-import dataHeader from "@/services/headers";
+import authHeader from "@/services/authHeaders";
 export const BoardsApi = {
   getAllBoards: async () => {
     const res = await apiService.get("/boards");
@@ -7,32 +7,24 @@ export const BoardsApi = {
   },
   getBoard: async (id) => {
     const res = await apiService.get(`/boards/${id}`, {
-      headers: dataHeader(),
+      headers: authHeader(),
     });
     return res.data;
   },
   getBoardPosts: async (id) => {
-    const res = await apiService.get(`/boards/${id}/posts`, {
-      headers: dataHeader(),
-    });
+    const res = await apiService.get(`/boards/${id}/posts`);
     return res.data;
   },
   updateBoard: async (id, data) => {
-    const res = await apiService.put(`/boards/${id}`, data, {
-      headers: dataHeader(),
-    });
+    const res = await apiService.put(`/boards/${id}`, data);
     return res.data;
   },
   createBoard: async (data) => {
-    const res = await apiService.post(`/boards`, data, {
-      headers: dataHeader(),
-    });
+    const res = await apiService.post(`/boards`, data);
     return res.data;
   },
   createBoardPost: async (id, data) => {
-    const res = await apiService.post(`/boards/${id}/posts`, data, {
-      headers: dataHeader(),
-    });
+    const res = await apiService.post(`/boards/${id}/posts`, data);
     return res.data;
   },
   deleteBoard: async (id) => {

@@ -1,5 +1,5 @@
 <template>
-  <v-card id="Editor" width="500px" class="mx-auto">
+  <v-card id="Editor" width="500px" outlined class="mx-auto">
     <v-row no-gutters class="text-left pa-2">
       <v-col cols="12">
         <v-text-field
@@ -161,7 +161,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
 import BoardLink from "./BoardLink";
-import { BoardsApi } from "../services/boards";
+import { BoardsApi } from "../../services/boards";
 
 export default {
   components: {

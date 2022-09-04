@@ -87,19 +87,21 @@ local function seed(db, token, bcrypt)
     body = "this is a test body",
     file_base64 = test_image,
     ip = "123.123.123",
-    board_id = 1
+    board_id = 1,
+    created_at = os.date()
   })
   db.insert("posts", {
     name = "Anon User",
     body = "I just created a seeder for in lua for the first time",
     subject = "Hello!! Thisis is a subject",
     ip = "123.123.125",
-    board_id = 1
+    board_id = 1,
+    created_at = os.date()
   })
   db.insert("users", {
     username = "admin",
     role = 9,
-    password = bcrypt.digest("admin" .. "david1991" .. token, 12),
+    password = bcrypt.digest("admin" .. "admin" .. token, 12),
     api_key = uuid(),
   })
 

@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="dialog" width="500px">
+    <v-dialog v-model="boardDialog" width="500px">
       <v-card outlined>
         <v-form ref="form" v-model="valid" lazy-validation>
           <v-card-title> Add Link </v-card-title>
@@ -35,6 +35,7 @@
   </div>
 </template>
 <script>
+/* eslint-disable */
 export default {
   name: "BoardLink",
   props: {
@@ -54,6 +55,7 @@ export default {
   data() {
     const self = this;
     return {
+      boardDialog: false,
       updatedLink: "",
       updatedLinkText: "",
       valid: true,
@@ -62,6 +64,11 @@ export default {
         (value) => self.isURL(value) || "URL is not valid",
       ],
     };
+  },
+  watch: {
+    dialog(val) {
+      this.boardDialog = val;
+    },
   },
   mounted() {
     this.updatedLink = this.link;

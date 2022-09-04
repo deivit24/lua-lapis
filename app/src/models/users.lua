@@ -116,12 +116,12 @@ end
 -- @treturn string error
 function Users:login(params)
   local user = self:get(params.username)
-  if not user then return nil, { "err_invalid_user" } end
+  if not user then return nil, { message = "Invalid Credentials" } end
 
   local password = user.username .. params.password .. token
   local verified = bcrypt.verify(password, user.password)
 
-  return verified and user or nil, { "err_invalid_user" }
+  return verified and user or nil, { message = "Invalid Credentials" }
 end
 
 --- Get all users
