@@ -5,6 +5,10 @@ local Posts = Model:extend("posts", {
   }
 })
 
+Posts.valid_record = {
+  { "name", max_length = 255, exists = true },
+  { "body", max_length = 1000, exists = true },
+}
 --- Prepare post for insertion
 --- Create a new post
 -- @tparam table params Post parameters

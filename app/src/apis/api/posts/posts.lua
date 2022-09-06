@@ -27,11 +27,14 @@ function action:POST()
     file_name = self.params.file_name or nil,
     file_size = self.params.file_size or nil,
     board_id = self.params.board_id,
+    lewd = self.params.lewd,
     created_at = os.date()
   }
   params.ip = self.req.headers["X-Real-IP"] or self.req.remote_addr
   trim_filter(params)
+  assert_valid(params, Posts.valid_record)
 
+  print("LEWD", self.params.lewd)
   -- -- Create user
   local post = assert_error(Posts:new(params))
 

@@ -55,12 +55,11 @@ return {
       { "file_name", types.varchar { null = true } },
       { "file_base64", types.text { null = true } },
       { "file_size", types.integer { null = true } },
-      { "file_lewd", types.boolean { null = true } },
+      { "lewd", types.boolean { null = true } },
       { "banned", types.boolean { default = false } }
     })
 
     if config.site_name == "[DEVEL] Lapis" then
-      print("SECRET:", config.secret)
       seed(db, config.secret, bcrypt)
     end
   end

@@ -25,7 +25,7 @@
         style="height: 90vh; overflow-y: auto; float: left; position: relative"
       >
         <h1 class="text-center">Posts</h1>
-        <p class="text-center mb-2 pb-1">255 Character Limit</p>
+        <p class="text-center mb-2 pb-1">1000 Character Limit</p>
         <v-skeleton-loader
           v-if="loadingPosts"
           type="list-item-avatar, divider, list-item-three-line, card-heading, image, actions"

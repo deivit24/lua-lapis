@@ -15,7 +15,7 @@
     </v-card-text>
     <v-card-actions v-if="authUser?.role >= 8">
       <v-spacer></v-spacer>
-      <v-btn x-small text color="error"> [ DELETE ] </v-btn>
+      <v-btn x-small text color="error"> [ DELETE] </v-btn>
     </v-card-actions>
   </v-card>
 </template>
