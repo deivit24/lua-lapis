@@ -6,10 +6,10 @@ local secret = assert(loadfile("../data/secrets/token.lua"))()
 local subdomains = false
 
 -- Maximum file size (update this in scripts.js too!)
-local body_size  = "15m"
+local body_size = "15m"
 
 -- Maximum comment size (update this in scripts.js too!)
-local text_size  = 10000
+local text_size = 10000
 
 -- Path to your lua libraries (LuaRocks and OpenResty)
 local lua_path  = "./src/?.lua;./src/?/init.lua"
@@ -17,6 +17,7 @@ local lua_cpath = ""
 
 config("development", {
 	site_name  = "[DEVEL] Lapis",
+	code_cache = "on",
 	port       = 9090,
 	secret     = secret,
 	subdomains = subdomains,

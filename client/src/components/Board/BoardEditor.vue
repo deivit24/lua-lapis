@@ -119,6 +119,12 @@
       </v-btn>
     </v-row>
     <editor-content class="text-left" :editor="editor" />
+    <span
+      v-if="errorMessage"
+      class="error--text text-left text-capitalize mb-0 ml-3"
+    >
+      [{{ errorMessage }}]
+    </span>
     <board-link
       :key="linkDialog"
       :dialog="linkDialog"
@@ -186,6 +192,7 @@ export default {
       base64: null,
       name: "",
       subject: "",
+      errorMessage: "",
       isLewd: false,
     };
   },
@@ -207,6 +214,9 @@ export default {
         this.display = "d-none";
         this.base64 = null;
       }
+    },
+    isLewd(value) {
+      console.log(value);
     },
   },
   created() {
@@ -273,8 +283,9 @@ export default {
           file_name: this.file?.name,
           file_size: this.file?.size,
           file_base64: this.base64,
-          body: this.editor.getHTML(),
+          body: this.editor.getHTML() == "<p></p>" ? "" : this.editor.getHTML(),
           subject: this.subject,
+          lewd: this.isLewd,
         };
         if (!this.file) {
           delete data.file_name;
@@ -284,15 +295,22 @@ export default {
 
         await BoardsApi.createBoardPost(this.boardId, data);
         this.$emit("newPost");
-        this.file = null;
-        this.base64 = null;
-        this.value = "";
-        this.name = "";
-        this.subject = "";
-        this.editor.commands.setContent(this.value, false);
+        this.reset();
       } catch (e) {
-        console.error(e);
+        this.errorMessage = e.response.data[0];
+        setTimeout(() => {
+          this.errorMessage = "";
+        }, 5000);
       }
+    },
+    reset() {
+      this.isLewd = false;
+      this.file = null;
+      this.base64 = null;
+      this.value = "";
+      this.name = "";
+      this.subject = "";
+      this.editor.commands.setContent(this.value, false);
     },
   },
 };
