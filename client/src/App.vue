@@ -16,6 +16,7 @@
         <div
           class="d-flex justify-center align-center"
           v-if="notifications.length > 0"
+          style="z-index: 1000"
         >
           [<v-icon :color="notifications[0].type" x-small>mdi-message</v-icon
           ><span :class="notifications[0].type + '--text'">{{
@@ -25,7 +26,7 @@
         </div>
         <v-spacer></v-spacer>
         <div class="d-flex justify-center align-center" v-if="isAuth">
-          <v-btn small text color="primary">
+          <v-btn small text color="primary" @click="createBoardDialog = true">
             [<v-icon color="primary" small>mdi-clipboard-text-multiple</v-icon
             ><span>CREATE BOARD</span>]</v-btn
           >
@@ -66,6 +67,10 @@
         />
       </v-system-bar>
     </div>
+    <board-create-dialog
+      :create-dialog="createBoardDialog"
+      @close="createBoardDialog = false"
+    />
     <v-main class="mt-5">
       <router-view />
     </v-main>
@@ -75,14 +80,18 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import AuthLogin from "./components/Auth/AuthLogin";
+import BoardCreateDialog from "./components/Board/BoardCreateDialog";
+
 export default {
   name: "App",
   components: {
     AuthLogin,
+    BoardCreateDialog,
   },
   data: () => ({
     darkMode: true,
     menu: false,
+    createBoardDialog: false,
     postion: { x: 0, y: 0 },
   }),
   created() {

@@ -9,7 +9,9 @@
           {{ board.subtext }}
         </span>
         <p class="mb-0 mt-2">Rules</p>
-        <div v-html="board.rules"></div>
+        <ul>
+          <li v-for="rule in board.rules.split(',')" :key="rule">{{ rule }}</li>
+        </ul>
       </v-card-text>
       <v-card-actions v-if="authUser?.role >= 8">
         <v-spacer></v-spacer>

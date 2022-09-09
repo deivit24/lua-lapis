@@ -20,7 +20,9 @@ export const BoardsApi = {
     return res.data;
   },
   createBoard: async (data) => {
-    const res = await apiService.post(`/boards`, data);
+    const res = await apiService.post(`/boards`, data, {
+      headers: authHeader(),
+    });
     return res.data;
   },
   createBoardPost: async (id, data) => {

@@ -156,7 +156,7 @@
     >
     <v-card-actions class="pt-0">
       <v-spacer></v-spacer>
-      <v-btn depressed small color="default" @click="submit">Submit</v-btn>
+      <v-btn depressed small color="default" @click="submit">Submit Post</v-btn>
     </v-card-actions>
   </v-card>
 </template>
