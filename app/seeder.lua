@@ -1,12 +1,9 @@
 local test_image    = require("src.utils.images")
 local uuid          = require "resty.jit-uuid"
-local default_rules = [[
-  <ul>
-    <li>SFW Board</li>
-    <li>Community board (off-topic is acceptable)</li>
-    <li>Be relatively nice</li>
-    <li>Spoiler any lewd content</li>
-  </ul>
+local default_rules = [[ SFW Board,
+    Community board (off-topic is acceptable,
+    Be relatively nice,
+    Spoiler any lewd content
 ]]
 
 local boards = {

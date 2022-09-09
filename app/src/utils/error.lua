@@ -19,7 +19,7 @@ end
 
 -- Attempting to access endpoint that requires higher priviliges
 function get_error.unauthorized_access()
-	return { code = 102 }
+	return { message = "Not Authorized" }
 end
 
 -- Data Validation

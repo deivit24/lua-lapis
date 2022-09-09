@@ -4,6 +4,7 @@ local assert_error = require("lapis.application").assert_error
 local assert_valid = require("lapis.validate").assert_valid
 local trim_filter  = require("lapis.util").trim_filter
 local models       = require("models")
+local role         = require "utils.role"
 local Boards       = models.boards
 
 function action:GET()
@@ -19,9 +20,12 @@ end
 
 function action:POST()
   -- Validate parameters
+  assert_error(role.admin(self.api_user))
   local params = {
     name = self.params.name,
-    short_name = self.params.short_name
+    short_name = self.params.short_name,
+    rules = self.params.rules,
+    subtext = self.params.subtext
   }
   trim_filter(params)
   assert_valid(params, Boards.valid_record)

@@ -3,10 +3,10 @@ local Model  = require("lapis.db.model").Model
 local Boards = Model:extend("boards")
 
 Boards.valid_record = {
-  { "short_name", max_length = 255, exists = true },
-  { "name", max_length = 255, exists = true },
-  { "subtext", max_length = 255 },
-  { "anon_name", max_length = 255 },
+  { "short_name", max_length = 10, exists = true },
+  { "name", max_length = 50, exists = true },
+  { "subtext", max_length = 50, exists = true },
+  { "rules", max_length = 1000, exists = true },
 }
 
 --- Create a board
