@@ -46,12 +46,28 @@ return {
     schema.create_table("posts", {
       { "id", types.serial { unique = true, primary_key = true } },
       { "board_id", types.integer },
+      { "user_id", types.integer { null = true } },
       { "created_at", schema.types.time },
       { "ip", types.varchar },
       { "body", types.text { null = true } },
       { "name", types.varchar { null = true } },
       { "subject", types.varchar { null = true } },
       { "password", types.varchar { null = true } },
+      { "file_name", types.varchar { null = true } },
+      { "file_base64", types.text { null = true } },
+      { "file_size", types.integer { null = true } },
+      { "lewd", types.boolean { null = true } },
+      { "banned", types.boolean { default = false } }
+    })
+
+    schema.create_table("comments", {
+      { "id", types.serial { unique = true, primary_key = true } },
+      { "post_id", types.integer },
+      { "created_at", types.time },
+      { "user_id", types.integer { null = true } },
+      { "ip", types.varchar },
+      { "body", types.text { null = true } },
+      { "name", types.varchar { null = true, default = "Anon User" } },
       { "file_name", types.varchar { null = true } },
       { "file_base64", types.text { null = true } },
       { "file_size", types.integer { null = true } },

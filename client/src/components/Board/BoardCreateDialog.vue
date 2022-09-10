@@ -103,12 +103,19 @@ export default {
           type: "success",
         });
         this.reloadBoards();
+        this.reset();
       } catch (error) {
         this.addNotification({
           message: error.response.data[0].message,
           type: "error",
         });
       }
+    },
+    reset() {
+      this.name = "";
+      this.shortName = "";
+      this.subText = "";
+      this.rules = "";
     },
     createData() {
       return {

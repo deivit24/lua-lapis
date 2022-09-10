@@ -101,6 +101,21 @@ local function seed(db, token, bcrypt)
     password = bcrypt.digest("admin" .. "admin" .. token, 12),
     api_key = uuid(),
   })
+  db.insert("comments", {
+    name = "Anon User",
+    body = "Hello this is a test comment",
+    ip = "123.123.124",
+    post_id = 1,
+    created_at = os.date()
+  })
+  db.insert("comments", {
+    name = "Killua",
+    body = "Hello this is a second commet",
+    ip = "123.123.125",
+    post_id = 1,
+    created_at = os.date()
+  })
+
 
 
 end
