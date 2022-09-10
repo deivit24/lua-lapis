@@ -91,6 +91,7 @@ export default {
   methods: {
     ...mapActions({
       addNotification: "notifications/addNotification",
+      reloadBoards: "boards/reloadBoards",
     }),
     async createBoard() {
       try {
@@ -101,6 +102,7 @@ export default {
           message: "Board Successfully Added",
           type: "success",
         });
+        this.reloadBoards();
       } catch (error) {
         this.addNotification({
           message: error.response.data[0].message,
