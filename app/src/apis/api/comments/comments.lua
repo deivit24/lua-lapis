@@ -4,43 +4,42 @@ local assert_error = require("lapis.application").assert_error
 local assert_valid = require("lapis.validate").assert_valid
 local trim_filter  = require("lapis.util").trim_filter
 local models       = require("models")
-local Posts        = models.posts
+local Comments     = models.comments
 
 function action:GET()
-  local board_id = tonumber(self.params.board_id)
-  local posts = assert_error(Posts:get_board_posts(board_id))
+  local post_id = tonumber(self.params.post_id)
+  local comments = assert_error(Comments:get_post_comments(post_id))
   return {
     status = ngx.HTTP_OK,
     json = {
-      posts = posts
+      comments = comments
     }
   }
 end
 
 function action:POST()
   -- Validate parameters
+  local name = "Anon User"
+  if self.params.name then
+    name = self.params.name
+  end
   local params = {
-    name = self.params.name,
+    name = name,
     body = self.params.body,
-    subject = self.params.subject,
-    file_base64 = self.params.file_base64 or nil,
-    file_name = self.params.file_name or nil,
-    file_size = self.params.file_size or nil,
-    board_id = self.params.board_id,
-    lewd = self.params.lewd,
+    post_id = self.params.post_id,
     created_at = os.date()
   }
   params.ip = self.req.headers["X-Real-IP"] or self.req.remote_addr
   trim_filter(params)
-  assert_valid(params, Posts.valid_record)
+  assert_valid(params, Comments.valid_record)
 
   -- -- Create user
-  local post = assert_error(Posts:new(params))
+  local comment = assert_error(Comments:new(params))
 
   return {
     status = ngx.HTTP_OK,
     json   = {
-      post = post,
+      comment = comment,
     }
   }
 end
