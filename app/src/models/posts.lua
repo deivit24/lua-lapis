@@ -58,4 +58,12 @@ function Posts:get_post_by_id(id)
   return post and post or false, "FIXME"
 end
 
+--- Count posts in a Board
+-- @tparam number board_id Boards ID
+-- @treturn number posts
+function Posts:count_posts(board_id)
+  local sql = "board_id=?"
+  return self:count(sql, board_id)
+end
+
 return Posts
