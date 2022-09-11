@@ -8,11 +8,10 @@
           >
         </div>
         <div class="d-flex justify-center align-center" v-if="isAuth">
-          [<v-icon small>mdi-account</v-icon
-          ><span>Hello, {{ authUser.username }}</span
-          >]
+          <v-btn small depressed color="transparent">
+            [<v-icon small>mdi-dashboard</v-icon><span>DASHBOARD</span>]</v-btn
+          >
         </div>
-        <v-spacer></v-spacer>
         <div
           class="d-flex justify-center align-center"
           v-if="notifications.length > 0"

@@ -115,6 +115,21 @@ local function seed(db, token, bcrypt)
     post_id = 1,
     created_at = os.date()
   })
+  db.insert("announcements", {
+    text = "This is an info announcement",
+    type = "info",
+    board_id = 1,
+  })
+  db.insert("announcements", {
+    text = "This is an warning announcement",
+    type = "warning",
+    board_id = 1,
+  })
+  db.insert("announcements", {
+    text = "This is an error announcement",
+    type = "error",
+    board_id = 2,
+  })
 
 
 

@@ -75,6 +75,14 @@ return {
       { "banned", types.boolean { default = false } }
     })
 
+
+    schema.create_table("announcements", {
+      { "id", types.serial { unique = true, primary_key = true } },
+      { "board_id", types.integer { null = true } },
+      { "text", types.varchar },
+      { "type", types.varchar { default = "info" } }
+    })
+
     if config.site_name == "[DEVEL] Lapis" then
       seed(db, config.secret, bcrypt)
     end
