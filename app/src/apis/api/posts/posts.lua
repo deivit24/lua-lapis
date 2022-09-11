@@ -28,6 +28,7 @@ function action:POST()
     file_size = self.params.file_size or nil,
     board_id = self.params.board_id,
     lewd = self.params.lewd,
+    user_id = self.api_user.id,
     created_at = os.date()
   }
   params.ip = self.req.headers["X-Real-IP"] or self.req.remote_addr

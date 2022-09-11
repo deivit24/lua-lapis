@@ -16,7 +16,7 @@
         <board-editor :board-id="board.id" @newPost="addPost" class="my-3" />
         <span class="error--text">[RULES]</span>
         <ul class="py-2 ml-8 text-left">
-          <li v-for="rule in board.rules.split(',')" :key="rule">
+          <li v-for="rule in board.rules?.split(',')" :key="rule">
             {{ rule }}
           </li>
         </ul>

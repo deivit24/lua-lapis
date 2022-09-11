@@ -140,8 +140,13 @@ function Users:get(username)
 end
 
 function Users:get_api(params)
+  local default = {
+    role = -2,
+    id = -2,
+    username = "Anon User"
+  }
   local user = self:find(params)
-  return user and user or nil, "FIXME"
+  return user and user or nil, default
 end
 
 function Users:format_to_db(params)

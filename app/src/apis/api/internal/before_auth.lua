@@ -35,7 +35,8 @@ return function(self)
 
 	-- Set basic User
 	self.api_user = {
-		id   = -1,
-		role = -1
+		id       = -1,
+		role     = -1,
+		username = "Anon User"
 	}
 end
