@@ -13,6 +13,7 @@ function action:GET()
   local boards = assert_error(Boards:get_all())
   for index, value in ipairs(boards) do
     value.post_count = Posts:count_posts(value.id)
+    value.announcement_count = Boards:get_announcement_count(value.id)
   end
   return {
     status = ngx.HTTP_OK,

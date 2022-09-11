@@ -1,11 +1,12 @@
-local db     = require "lapis.db"
-local Model  = require("lapis.db.model").Model
-local Boards = Model:extend("boards", {
+local db            = require "lapis.db"
+local Model         = require("lapis.db.model").Model
+local Boards        = Model:extend("boards", {
   relations = {
     { "announcements", has_many = "Announcements" },
     { "posts", has_many = "Posts" }
   }
 })
+local Announcements = Model:extend("announcements")
 
 
 Boards.valid_record = {
@@ -92,6 +93,12 @@ end
 function Boards:get_by_id(id)
   local board = self:find(id)
   return board or nil
+end
+
+function Boards:get_announcement_count(id)
+  local board = self:find(id)
+  local sql = "board_id=?"
+  return Announcements:count(sql, board.id)
 end
 
 return Boards

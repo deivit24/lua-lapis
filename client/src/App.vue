@@ -8,7 +8,12 @@
           >
         </div>
         <div class="d-flex justify-center align-center" v-if="isAuth">
-          <v-btn small depressed color="transparent">
+          <v-btn
+            @click="$router.push('/dashboard')"
+            small
+            depressed
+            color="transparent"
+          >
             [<v-icon small>mdi-dashboard</v-icon><span>DASHBOARD</span>]</v-btn
           >
         </div>
