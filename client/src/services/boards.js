@@ -24,7 +24,10 @@ export const BoardsApi = {
   creatComment: async (board_id, post_id, data) => {
     const res = await apiService.post(
       `/boards/${board_id}/posts/${post_id}/comments`,
-      data
+      data,
+      {
+        headers: authHeader(),
+      }
     );
     return res.data;
   },
@@ -39,7 +42,9 @@ export const BoardsApi = {
     return res.data;
   },
   createBoardPost: async (id, data) => {
-    const res = await apiService.post(`/boards/${id}/posts`, data);
+    const res = await apiService.post(`/boards/${id}/posts`, data, {
+      headers: authHeader(),
+    });
     return res.data;
   },
   deleteBoard: async (id) => {

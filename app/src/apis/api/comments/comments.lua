@@ -18,22 +18,18 @@ function action:GET()
 end
 
 function action:POST()
-  -- Validate parameters
-  local name = "Anon User"
-  if self.params.name then
-    name = self.params.name
-  end
   local params = {
-    name = name,
+    name = self.api_user.username,
     body = self.params.body,
     post_id = self.params.post_id,
+    user_id = self.api_user.id,
     created_at = os.date()
   }
   params.ip = self.req.headers["X-Real-IP"] or self.req.remote_addr
   trim_filter(params)
   assert_valid(params, Comments.valid_record)
 
-  -- -- Create user
+  -- -- Create comment
   local comment = assert_error(Comments:new(params))
 
   return {

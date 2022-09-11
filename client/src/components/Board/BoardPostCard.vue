@@ -4,7 +4,14 @@
       {{ boardPost.subject }}
     </v-card-title>
     <v-card-subtitle>
-      Posted by <strong>{{ boardPost.name }}</strong> -
+      Posted by
+      <strong>
+        [
+        <v-icon class="mr-2" color="primary" v-if="boardPost.user_id > 0" small
+          >mdi-account</v-icon
+        >{{ boardPost.name }} ]</strong
+      >
+      -
       {{ formatDate(boardPost.created_at) }}
     </v-card-subtitle>
 
@@ -55,7 +62,7 @@
         </div>
       </v-expand-transition>
     </v-card-text>
-    <v-card-actions>
+    <v-card-actions v-if="!show">
       <v-btn
         x-small
         text
@@ -66,29 +73,14 @@
         [ I'm 18 ]
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn x-small text color="primary" v-if="!show" @click="show = true">
+      <v-btn x-small text color="primary" @click="show = true">
         [ COMMENT ]
       </v-btn>
       <v-btn v-if="authUser?.role >= 8" x-small text color="error">
         [ DELETE ]
       </v-btn>
     </v-card-actions>
-
-    <v-list class="pl-5">
-      <template v-for="comment in comments">
-        <v-list-item :key="comment.id">
-          <v-list-item-content>
-            <v-list-item-title>
-              {{ comment.name }} -
-              <span style="font-size: 0.875rem">
-                commented {{ formatDate(comment.created_at) }}</span
-              >
-            </v-list-item-title>
-            <v-list-item-subtitle v-html="comment.body"></v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </template>
-    </v-list>
+    <board-post-comments :comments="comments" />
   </v-card>
 </template>
 
@@ -96,7 +88,9 @@
 import moment from "moment";
 import { mapGetters } from "vuex";
 import { BoardsApi } from "../../services/boards";
+import BoardPostComments from "./BoardPostComments.vue";
 export default {
+  components: { BoardPostComments },
   name: "BoardPostCard",
   props: {
     post: {
@@ -130,30 +124,34 @@ export default {
     },
     async getComments(boardId = 1, postId) {
       const res = await BoardsApi.getBoardPostComments(boardId, postId);
-      console.log(res.comments);
       if (res.comments.length > 0) {
         this.comments = res.comments;
       } else {
         this.comments = [];
       }
-      console.log(this.comments);
     },
     removeLewd() {
       this.boardPost.lewd = false;
     },
     async submitComment() {
-      const data = {
-        body: this.comment,
-      };
-      const res = await BoardsApi.creatComment(
-        this.boardPost.board_id,
-        this.boardPost.id,
-        data
-      );
-      this.comments.push(res.comment);
-      this.comments.sort(function (a, b) {
-        return b.id - a.id;
-      });
+      try {
+        const data = {
+          body: this.comment,
+        };
+        const res = await BoardsApi.creatComment(
+          this.boardPost.board_id,
+          this.boardPost.id,
+          data
+        );
+        this.comments.push(res.comment);
+        this.comments.sort(function (a, b) {
+          return b.id - a.id;
+        });
+        this.comment = "";
+        this.show = false;
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };

@@ -7,6 +7,7 @@
           label="Name"
           placeholder="Anonymous User"
           class="mx-2"
+          :disabled="isAuth"
         ></v-text-field>
       </v-col>
       <v-col cols="12" class="pt-0">
@@ -168,6 +169,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
 import BoardLink from "./BoardLink";
 import { BoardsApi } from "../../services/boards";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -215,8 +217,12 @@ export default {
         this.base64 = null;
       }
     },
-    isLewd(value) {
-      console.log(value);
+    isAuth(val) {
+      if (val) {
+        this.name = this.authUser.username;
+      } else {
+        this.name = "";
+      }
     },
   },
   created() {
@@ -230,9 +236,18 @@ export default {
         }),
       ],
     });
+    if (this.isAuth) {
+      this.name = this.authUser.username;
+    }
   },
   beforeDestroy() {
     this.editor.destroy();
+  },
+  computed: {
+    ...mapGetters({
+      authUser: "auth/user",
+      isAuth: "auth/isLoggedIn",
+    }),
   },
   methods: {
     createBase64Image: function (FileObject) {
