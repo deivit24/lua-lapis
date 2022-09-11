@@ -14,6 +14,11 @@
           <br />
         </div>
         <board-editor :board-id="board.id" @newPost="addPost" class="my-3" />
+        <board-announcements
+          v-if="isAnnouncement"
+          :announcements="board.announcements"
+        />
+
         <span class="error--text">[RULES]</span>
         <ul class="py-2 ml-8 text-left">
           <li v-for="rule in board.rules?.split(',')" :key="rule">
@@ -48,12 +53,14 @@
 import { BoardsApi } from "../services/boards";
 import BoardEditor from "../components/Board/BoardEditor";
 import BoardPostCard from "../components/Board/BoardPostCard";
+import BoardAnnouncements from "../components/Board/BoardAnnouncements";
 
 export default {
   name: "BoardsDetails",
   components: {
     BoardEditor,
     BoardPostCard,
+    BoardAnnouncements,
   },
   data: () => ({
     board: {},
@@ -68,6 +75,13 @@ export default {
   computed: {
     title() {
       return `/${this.board?.short_name}/ - ${this.board?.name}`;
+    },
+    isAnnouncement() {
+      if (this.board.announcements?.length > 0) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
   methods: {

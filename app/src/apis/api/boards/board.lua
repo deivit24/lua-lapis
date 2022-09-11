@@ -8,7 +8,7 @@ local Boards       = models.boards
 
 function action:GET()
   local board = assert_error(Boards:get_by_id(self.params.id))
-
+  board.announcements = board:get_announcements()
   return {
     status = ngx.HTTP_OK,
     json   = board
@@ -36,7 +36,7 @@ end
 
 function action:DELETE()
 
-  -- Delete user
+  -- Delete board
   local board = assert_error(Boards:delete(self.params.id))
 
   return {

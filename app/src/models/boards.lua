@@ -1,6 +1,12 @@
 local db     = require "lapis.db"
 local Model  = require("lapis.db.model").Model
-local Boards = Model:extend("boards")
+local Boards = Model:extend("boards", {
+  relations = {
+    { "announcements", has_many = "Announcements" },
+    { "posts", has_many = "Posts" }
+  }
+})
+
 
 Boards.valid_record = {
   { "short_name", max_length = 10, exists = true },
