@@ -1,7 +1,7 @@
 local test_image    = require("src.utils.images")
 local uuid          = require "resty.jit-uuid"
 local default_rules = [[ SFW Board,
-    Community board (off-topic is acceptable,
+    Community board (off-topic is acceptable),
     Be relatively nice,
     Spoiler any lewd content
 ]]
@@ -90,7 +90,7 @@ local function seed(db, token, bcrypt)
   db.insert("posts", {
     name = "Anon User",
     body = "I just created a seeder for in lua for the first time",
-    subject = "Hello!! Thisis is a subject",
+    subject = "Hello!! This is is a subject",
     ip = "123.123.125",
     board_id = 1,
     created_at = os.date()
@@ -99,6 +99,24 @@ local function seed(db, token, bcrypt)
     username = "admin",
     role = 9,
     password = bcrypt.digest("admin" .. "admin" .. token, 12),
+    api_key = uuid(),
+  })
+  db.insert("users", {
+    username = "david",
+    role = 1,
+    password = bcrypt.digest("david" .. "david" .. token, 12),
+    api_key = uuid(),
+  })
+  db.insert("users", {
+    username = "test_1",
+    role = 1,
+    password = bcrypt.digest("password" .. "password" .. token, 12),
+    api_key = uuid(),
+  })
+  db.insert("users", {
+    username = "test_2",
+    role = 1,
+    password = bcrypt.digest("password" .. "password" .. token, 12),
     api_key = uuid(),
   })
   db.insert("comments", {
@@ -130,9 +148,6 @@ local function seed(db, token, bcrypt)
     type = "error",
     board_id = 2,
   })
-
-
-
 end
 
 return seed

@@ -127,7 +127,6 @@
       [{{ errorMessage }}]
     </span>
     <board-link
-      :key="linkDialog"
       :dialog="linkDialog"
       :link="link"
       :link-text="linkText"

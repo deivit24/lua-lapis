@@ -3,7 +3,7 @@
     <template v-for="comment in comments">
       <v-list-item :key="comment.id">
         <v-list-item-content>
-          <v-list-item-title>
+          <v-list-item-title class="default--text">
             <v-icon
               v-if="comment.user_id > 0"
               color="primary"
@@ -15,7 +15,10 @@
               commented {{ formatDate(comment.created_at) }}</span
             >
           </v-list-item-title>
-          <v-list-item-subtitle v-html="comment.body"></v-list-item-subtitle>
+          <v-list-item-subtitle
+            class="mt-2"
+            v-html="comment.body"
+          ></v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </template>
