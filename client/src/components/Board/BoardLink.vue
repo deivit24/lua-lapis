@@ -67,10 +67,12 @@ export default {
   },
   watch: {
     dialog(val) {
+      console.log(val);
       this.boardDialog = val;
     },
   },
-  mounted() {
+  created() {
+    console.log("moneted");
     this.updatedLink = this.link;
     this.updatedLinkText = this.linkText;
   },

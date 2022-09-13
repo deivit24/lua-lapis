@@ -7,7 +7,10 @@
             [<v-icon small>mdi-home</v-icon><span>ALL BOARDS</span>]</v-btn
           >
         </div>
-        <div class="d-flex justify-center align-center" v-if="isAuth">
+        <div
+          class="d-flex justify-center align-center"
+          v-if="isAuth && authUser.role >= 8"
+        >
           <v-btn
             @click="$router.push('/dashboard')"
             small

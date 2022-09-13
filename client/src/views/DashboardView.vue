@@ -48,6 +48,9 @@ export default {
       notifications: "notifications/notifications",
     }),
   },
+  created() {
+    if (this.authUser.role < 8) this.$router.push("/");
+  },
 };
 </script>
 

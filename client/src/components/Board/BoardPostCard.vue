@@ -31,17 +31,13 @@
           <v-divider></v-divider>
 
           <v-card-text>
-            <v-textarea
-              v-model="comment"
-              outlined
-              placeholder="Start writing a comment"
-              counter
-              maxlength="255"
-              auto-grow
-              rows="1"
-            ></v-textarea>
+            <board-comment-editor
+              ref="commentEditor"
+              @close="show = false"
+              @submit="submitComment"
+            />
 
-            <v-row no-gutters class="justify-end pt-2">
+            <!-- <v-row no-gutters class="justify-end pt-2">
               <v-btn
                 x-small
                 text
@@ -57,7 +53,7 @@
               <v-btn x-small outlined color="primary" @click="submitComment">
                 [ SUBMIT COMMENT ]
               </v-btn>
-            </v-row>
+            </v-row> -->
           </v-card-text>
         </div>
       </v-expand-transition>
@@ -89,8 +85,9 @@ import moment from "moment";
 import { mapGetters } from "vuex";
 import { BoardsApi } from "../../services/boards";
 import BoardPostComments from "./BoardPostComments.vue";
+import BoardCommentEditor from "./BoardCommentEditor.vue";
 export default {
-  components: { BoardPostComments },
+  components: { BoardPostComments, BoardCommentEditor },
   name: "BoardPostCard",
   props: {
     post: {
@@ -133,8 +130,9 @@ export default {
     removeLewd() {
       this.boardPost.lewd = false;
     },
-    async submitComment() {
+    async submitComment(comment) {
       try {
+        this.comment = comment;
         const data = {
           body: this.comment,
         };
@@ -148,7 +146,7 @@ export default {
           return b.id - a.id;
         });
         this.comment = "";
-        this.show = false;
+        this.$refs.commentEditor.reset();
       } catch (error) {
         console.error(error);
       }
