@@ -6,7 +6,8 @@ local Posts = Model:extend("posts", {
 })
 
 Posts.valid_record = {
-  { "name", max_length = 255, exists = true },
+  { "name", max_length = 25, exists = true },
+  { "subject", max_length = 50, exists = true },
   { "body", max_length = 1000, exists = true },
 }
 --- Prepare post for insertion
@@ -30,9 +31,9 @@ end
 --- Get op and last 5 posts of a thread to display on board index
 -- @tparam number thread_id Thread ID
 -- @treturn table posts
-function Posts:get_board_posts(board_id)
+function Posts:get_board_posts(board_id, banned)
 
-  local sql = "WHERE board_id=? ORDER BY id desc limit 10"
+  local sql = "WHERE board_id=? AND " .. banned .. " ORDER BY id desc limit 10"
   local posts = self:select(sql, board_id)
 
   return posts
@@ -50,12 +51,29 @@ function Posts:get(board_id, post_id)
   return post and post or false, "FIXME"
 end
 
+--- Modify a Post
+-- @tparam table params Post parameters
+-- @tparam post_id params Post id
+function Posts:modify(params, id)
+  local post = self:get_post_by_id(id)
+  if not post then
+    return false, { "Post does not exist" } -- FIXME: wrong error message
+  end
+
+  local success, err = post:update(params)
+  if not success then
+    return false, "FIXME: " .. tostring(err)
+  end
+
+  return post
+end
+
 --- Get post data
 -- @tparam number id Post ID
 -- @treturn table post
 function Posts:get_post_by_id(id)
   local post = self:find(id)
-  return post and post or false, "FIXME"
+  return post and post or false, nil
 end
 
 --- Count posts in a Board

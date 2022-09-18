@@ -36,29 +36,26 @@
               @close="show = false"
               @submit="submitComment"
             />
-
-            <!-- <v-row no-gutters class="justify-end pt-2">
-              <v-btn
-                x-small
-                text
-                class="mr-2"
-                color="error"
-                @click="
-                  comment = '';
-                  show = false;
-                "
-              >
-                [ DISCARD COMMENT ]
-              </v-btn>
-              <v-btn x-small outlined color="primary" @click="submitComment">
-                [ SUBMIT COMMENT ]
-              </v-btn>
-            </v-row> -->
           </v-card-text>
         </div>
       </v-expand-transition>
     </v-card-text>
-    <v-card-actions v-if="!show">
+    <v-card-actions v-if="!show && !isPreview">
+      <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            x-small
+            v-bind="attrs"
+            v-on="on"
+            @click="report"
+            text
+            color="warning"
+          >
+            [ REPORT ]
+          </v-btn>
+        </template>
+        <span>[ report post ]</span>
+      </v-tooltip>
       <v-btn
         x-small
         text
@@ -76,13 +73,13 @@
         [ DELETE ]
       </v-btn>
     </v-card-actions>
-    <board-post-comments :comments="comments" />
+    <board-post-comments :comments="comments" v-if="!isPreview" />
   </v-card>
 </template>
 
 <script>
 import moment from "moment";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import { BoardsApi } from "../../services/boards";
 import BoardPostComments from "./BoardPostComments.vue";
 import BoardCommentEditor from "./BoardCommentEditor.vue";
@@ -93,6 +90,10 @@ export default {
     post: {
       type: Object,
       default: () => {},
+    },
+    isPreview: {
+      type: Boolean,
+      default: false,
     },
   },
   data: () => ({
@@ -116,6 +117,9 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      addNotification: "notifications/addNotification",
+    }),
     formatDate(date) {
       return moment(date).utc(true).fromNow();
     },
@@ -129,6 +133,25 @@ export default {
     },
     removeLewd() {
       this.boardPost.lewd = false;
+    },
+    async report() {
+      try {
+        await BoardsApi.createReport(
+          this.boardPost.board_id,
+          this.boardPost.id,
+          {}
+        );
+        this.addNotification({
+          message: "Post Successfully reported",
+          type: "success",
+        });
+      } catch (error) {
+        console.error(error);
+        this.addNotification({
+          message: "Post already reported",
+          type: "error",
+        });
+      }
     },
     async submitComment(comment) {
       try {

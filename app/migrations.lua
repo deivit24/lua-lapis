@@ -75,6 +75,13 @@ return {
       { "banned", types.boolean { default = false } }
     })
 
+    schema.create_table("reports", {
+      { "id", types.serial { unique = true, primary_key = true } },
+      { "ip", types.varchar },
+      { "post_id", types.integer },
+      { "created_at", types.time },
+    })
+
 
     schema.create_table("announcements", {
       { "id", types.serial { unique = true, primary_key = true } },

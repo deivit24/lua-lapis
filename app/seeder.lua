@@ -82,6 +82,7 @@ local function seed(db, token, bcrypt)
   db.insert("posts", {
     name = "David SALAZAR",
     body = "this is a test body",
+    subject = "Very Descriptive Subject",
     file_base64 = test_image,
     ip = "123.123.123",
     board_id = 1,

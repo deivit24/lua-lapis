@@ -8,11 +8,12 @@ local Posts        = models.posts
 
 function action:GET()
   local board_id = tonumber(self.params.board_id)
-  local posts = assert_error(Posts:get_board_posts(board_id))
+
+  local posts = assert_error(Posts:get_board_posts(board_id, self.req.parsed_url.query))
   return {
     status = ngx.HTTP_OK,
     json = {
-      posts = posts
+      posts = posts,
     }
   }
 end
