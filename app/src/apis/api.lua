@@ -14,5 +14,7 @@ app:include("apis.api.todos")
 app:include("apis.api.boards")
 app:include("apis.api.users")
 app:include("apis.api.announcements")
+app:include("apis.api.reports")
+app:include("apis.api.posts")
 
 return app

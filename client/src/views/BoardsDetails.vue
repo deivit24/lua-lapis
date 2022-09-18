@@ -96,10 +96,10 @@ export default {
         this.loadingBoard = false;
       }
     },
-    async getBoardPosts(id) {
+    async getBoardPosts(id, banned = false) {
       try {
         this.loadingPosts = true;
-        const res = await BoardsApi.getBoardPosts(id);
+        const res = await BoardsApi.getBoardPosts(id, banned);
         this.posts = res.posts;
       } catch (error) {
         console.error(error);

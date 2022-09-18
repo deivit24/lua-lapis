@@ -11,8 +11,10 @@ export const BoardsApi = {
     });
     return res.data;
   },
-  getBoardPosts: async (id) => {
-    const res = await apiService.get(`/boards/${id}/posts`);
+  getBoardPosts: async (id, banned = false) => {
+    const res = await apiService.get(`/boards/${id}/posts`, {
+      params: { banned: banned },
+    });
     return res.data;
   },
   getBoardPostComments: async (board_id, post_id) => {
@@ -24,6 +26,23 @@ export const BoardsApi = {
   creatComment: async (board_id, post_id, data) => {
     const res = await apiService.post(
       `/boards/${board_id}/posts/${post_id}/comments`,
+      data,
+      {
+        headers: authHeader(),
+      }
+    );
+    return res.data;
+  },
+  getAllReports: async (banned = true) => {
+    const res = await apiService.get(`/reports`, {
+      headers: authHeader(),
+      params: { banned: banned },
+    });
+    return res.data;
+  },
+  createReport: async (board_id, post_id, data) => {
+    const res = await apiService.post(
+      `/boards/${board_id}/posts/${post_id}/reports`,
       data,
       {
         headers: authHeader(),

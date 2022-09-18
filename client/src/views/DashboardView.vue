@@ -7,6 +7,7 @@
         <v-tab href="#boards"> Boards </v-tab>
         <v-tab href="#users"> Users </v-tab>
         <v-tab href="#bans"> Bans </v-tab>
+        <v-tab href="#reports"> Reports </v-tab>
       </v-tabs>
 
       <v-tabs-items v-model="tab">
@@ -25,6 +26,11 @@
             <h1>Bans</h1>
           </v-card>
         </v-tab-item>
+        <v-tab-item value="reports">
+          <v-card flat>
+            <board-reports-table />
+          </v-card>
+        </v-tab-item>
       </v-tabs-items>
     </v-card>
   </v-container>
@@ -32,11 +38,13 @@
 
 <script>
 import { mapGetters } from "vuex";
+import BoardReportsTable from "../components/Board/BoardReportsTable";
 import BoardTable from "../components/Board/BoardTable";
 export default {
   name: "DashboardView",
   components: {
     BoardTable,
+    BoardReportsTable,
   },
   data: () => ({
     tab: null,
