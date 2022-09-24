@@ -14,6 +14,7 @@ Boards.valid_record = {
   { "name", max_length = 50, exists = true },
   { "subtext", max_length = 50, exists = true },
   { "rules", max_length = 1000, exists = true },
+  { "category_id", exists = true },
 }
 
 --- Create a board

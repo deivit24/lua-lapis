@@ -1,7 +1,7 @@
 <template>
   <v-row no-gutters>
     <template v-for="cat in makeBoardsList(boards)">
-      <v-col class="text-left" cols="4" :key="cat.category">
+      <v-col class="text-left mb-2" cols="4" :key="cat.category">
         <h3 class="mb-2 ml-3">[ {{ cat.category }} ]</h3>
         <ul style="list-style: none; text-align: left">
           <li

@@ -16,16 +16,24 @@
     </v-card-subtitle>
 
     <v-card-text>
-      <v-img
-        contain
-        height="auto"
-        :class="lewdClass"
-        width="100%"
-        v-if="boardPost.file_base64"
-        :src="boardPost.file_base64"
-      >
-      </v-img>
-      <div class="mt-3" :class="lewdClass" v-html="boardPost.body"></div>
+      <v-row no-gutters>
+        <v-col cols="4" v-if="boardPost.file_base64">
+          <v-img
+            contain
+            height="auto"
+            class="px-3"
+            :class="lewdClass"
+            width="100%"
+            v-if="boardPost.file_base64"
+            :src="boardPost.file_base64"
+          >
+          </v-img>
+        </v-col>
+        <v-col :cols="boardPost.file_base64 ? 8 : 12">
+          <div :class="lewdClass" v-html="boardPost.body"></div>
+        </v-col>
+      </v-row>
+
       <v-expand-transition>
         <div v-show="show" class="mt-2">
           <v-divider></v-divider>
