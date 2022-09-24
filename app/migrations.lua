@@ -24,8 +24,16 @@ return {
       { "role", types.integer {} }
     })
 
+    schema.create_table("categories", {
+      { "id", types.serial { unique = true, primary_key = true } },
+      { "name", types.varchar { unique = true } },
+      { "created_at", types.time },
+    })
+
+
     schema.create_table("boards", {
       { "id", types.serial { unique = true, primary_key = true } },
+      { "category_id", types.foreign_key },
       { "short_name", types.varchar { unique = true } },
       { "name", types.varchar { unique = true } },
       { "subtext", types.varchar { default = "" } },

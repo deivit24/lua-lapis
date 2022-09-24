@@ -11,6 +11,18 @@
       <v-card-text>
         <v-row no-gutters class="text-left pa-2">
           <v-col cols="12">
+            <v-select
+              return-object
+              v-model="category"
+              :items="categories"
+              item-text="name"
+              item-value="id"
+              label="Category"
+              class="mx-2"
+              hide-details
+            ></v-select>
+          </v-col>
+          <v-col cols="12">
             <v-text-field
               v-model="name"
               label="Name"
@@ -67,6 +79,7 @@
 
 <script>
 import { BoardsApi } from "../../services/boards";
+import { CategoryAPI } from "../../services/categories";
 import { mapActions } from "vuex";
 export default {
   name: "BoardCreateDialog",
@@ -76,6 +89,7 @@ export default {
     shortName: "",
     subText: "",
     rules: "",
+    category: null,
   }),
   props: {
     createDialog: {
@@ -88,11 +102,19 @@ export default {
       this.dialog = val;
     },
   },
+  created() {
+    this.getCategories();
+  },
   methods: {
     ...mapActions({
       addNotification: "notifications/addNotification",
       reloadBoards: "boards/reloadBoards",
     }),
+    async getCategories() {
+      const res = await CategoryAPI.getCategories();
+      this.categories = res.categories;
+      console.log(this.categories);
+    },
     async createBoard() {
       try {
         const data = this.createData();

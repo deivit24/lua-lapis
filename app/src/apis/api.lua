@@ -11,10 +11,12 @@ end
 app:before_filter(capture({ on_error = handle, require "apis.api.internal.before_auth" }))
 app:include("apis.api.core")
 app:include("apis.api.todos")
+app:include("apis.api.categories")
 app:include("apis.api.boards")
 app:include("apis.api.users")
 app:include("apis.api.announcements")
 app:include("apis.api.reports")
 app:include("apis.api.posts")
+
 
 return app

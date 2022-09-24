@@ -1,4 +1,4 @@
-# Lua Lapis
+# Lua Lapis Vue LLUV Stack
 
 ## NOTES
 
@@ -35,3 +35,7 @@ from root run:
 `source dev.sh`
 
 go to `localhost:9090`
+
+## Credit
+
+A lot of credit goes to: [Lapchan] https://github.com/karai17/lapis-chan for alot of the code in the backend

@@ -11,71 +11,134 @@ local boards = {
     short_name = "lua",
     name = "Lua Programing",
     subtext = "Metatables for President",
-    rules = default_rules
+    rules = default_rules,
+    category_id = 1
   },
   {
     short_name = "python",
     name = "Python Programing",
     subtext = "Complex is better than complicated.",
-    rules = default_rules
+    rules = default_rules,
+    category_id = 1
   },
   {
     short_name = "js",
     name = "JavaScript",
     subtext = "If it can be written in javascript, it will be",
-    rules = default_rules
+    rules = default_rules,
+    category_id = 1
   },
   {
     short_name = "c",
     name = "C",
     subtext = "The God Father",
-    rules = default_rules
+    rules = default_rules,
+    category_id = 1
   },
   {
     short_name = "rust",
     name = "Rust",
     subtext = "Time to refactor the codebase",
-    rules = default_rules
+    rules = default_rules,
+    category_id = 1
   },
   {
     short_name = "go",
     name = "Golang",
     subtext = "For the googlers",
-    rules = default_rules
+    rules = default_rules,
+    category_id = 1
   },
   {
     short_name = "java",
     name = "Java",
     subtext = "OOP BABY!!",
-    rules = default_rules
+    rules = default_rules,
+    category_id = 1
   },
   {
     short_name = "php",
     name = "PHP",
     subtext = "Please stop",
-    rules = default_rules
+    rules = default_rules,
+    category_id = 1
   },
   {
     short_name = "c++",
     name = "C++",
     subtext = "Let's build a game engine",
-    rules = default_rules
+    rules = default_rules,
+    category_id = 1
   },
   {
     short_name = "ts",
     name = "TypeScript",
     subtext = "I'm just JavaScript on roids",
-    rules = default_rules
+    rules = default_rules,
+    category_id = 1
+  },
+  {
+    short_name = "vue",
+    name = "Vue",
+    subtext = "The Progressive JavaScript Framework",
+    rules = default_rules,
+    category_id = 4
+  },
+  {
+    short_name = "rjs",
+    name = "React",
+    subtext = "It's a library not a framework...",
+    rules = default_rules,
+    category_id = 4
+  },
+  {
+    short_name = "uty",
+    name = "Unity",
+    subtext = "I am game developer",
+    rules = default_rules,
+    category_id = 6
+  },
+  {
+    short_name = "rbx",
+    name = "Roblox",
+    subtext = "It's just Lua",
+    rules = default_rules,
+    category_id = 6
   }
 
 }
 local function seed(db, token, bcrypt)
+  db.insert("categories", {
+    name = "Programming Language",
+    created_at = os.date()
+  })
+  db.insert("categories", {
+    name = "Web Development",
+    created_at = os.date()
+  })
+  db.insert("categories", {
+    name = "Backend Development",
+    created_at = os.date()
+  })
+  db.insert("categories", {
+    name = "Frontend Development",
+    created_at = os.date()
+  })
+  db.insert("categories", {
+    name = "Data Science",
+    created_at = os.date()
+  })
+  db.insert("categories", {
+    name = "Game Development",
+    created_at = os.date()
+  })
   for key, value in ipairs(boards) do
     db.insert("boards", {
       short_name = value.short_name,
       name = value.name,
       subtext = value.subtext,
-      rules = value.rules
+      rules = value.rules,
+      category_id = value.category_id
     })
   end
 
