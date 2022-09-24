@@ -92,9 +92,128 @@ local boards = {
     category_id = 4
   },
   {
+    short_name = "ang",
+    name = "Angular",
+    subtext = "Googles framework",
+    rules = default_rules,
+    category_id = 4
+  },
+  {
+    short_name = "emb",
+    name = "Ember",
+    subtext = "A framework for ambitious web developers",
+    rules = default_rules,
+    category_id = 4
+  },
+  {
+    short_name = "sld",
+    name = "Solid",
+    subtext = "Simple and performant reactivity for building user interfaces",
+    rules = default_rules,
+    category_id = 4
+  },
+  {
+    short_name = "bkb",
+    name = "Backbone",
+    subtext = "JavaScript-heavy applications",
+    rules = default_rules,
+    category_id = 4
+  },
+  {
+    short_name = "svt",
+    name = "Svelt",
+    subtext = "Cybernetically enhanced web apps",
+    rules = default_rules,
+    category_id = 4
+  },
+  {
+    short_name = "jqy",
+    name = "jQuery",
+    subtext = "A feature-rich JavaScript library",
+    rules = default_rules,
+    category_id = 4
+  },
+  {
+    short_name = "qwk",
+    name = "Qwik",
+    subtext = "Framework reimagined for the edge",
+    rules = default_rules,
+    category_id = 4
+  },
+  {
+    short_name = "sui",
+    name = "Semantic UI",
+    subtext = "User Interface is the language of the web",
+    rules = default_rules,
+    category_id = 4
+  },
+  {
+    short_name = "dj",
+    name = "Django",
+    subtext = "The web framework for perfectionists with deadlines",
+    rules = default_rules,
+    category_id = 3
+  },
+  {
+    short_name = "flk",
+    name = "Flask",
+    subtext = "Web development, one drop at a time",
+    rules = default_rules,
+    category_id = 3
+  },
+  {
+    short_name = "fapi",
+    name = "FastAPI",
+    subtext = "High performance, easy to learn",
+    rules = default_rules,
+    category_id = 3
+  },
+  {
+    short_name = "exp",
+    name = "Express",
+    subtext = "Fast, unopinionated, minimalist web framework for Node.js",
+    rules = default_rules,
+    category_id = 3
+  },
+  {
+    short_name = "fty",
+    name = "Fastify",
+    subtext = "Fast and low overhead web framework, for Node.js",
+    rules = default_rules,
+    category_id = 3
+  },
+  {
+    short_name = "spg",
+    name = "Spring",
+    subtext = "Spring make Java simple",
+    rules = default_rules,
+    category_id = 3
+  },
+  {
+    short_name = "lvl",
+    name = "Laravel",
+    subtext = "The PHP framework for web artisans",
+    rules = default_rules,
+    category_id = 3
+  },
+  {
+    short_name = "rail",
+    name = "Ruby on Rails",
+    subtext = "Compress the complexity of modern web apps",
+    rules = default_rules,
+    category_id = 3
+  },
+  {
+    short_name = "lap",
+    name = "Lapis",
+    subtext = "A web framework for lua",
+    rules = default_rules,
+    category_id = 3
+  },
+  {
     short_name = "uty",
     name = "Unity",
-    subtext = "I am game developer",
+    subtext = "Bring your game to life",
     rules = default_rules,
     category_id = 6
   },
@@ -104,7 +223,42 @@ local boards = {
     subtext = "It's just Lua",
     rules = default_rules,
     category_id = 6
-  }
+  },
+  {
+    short_name = "url",
+    name = "Unreal Engine",
+    subtext = "Advance 3d creation tool",
+    rules = default_rules,
+    category_id = 6
+  },
+  {
+    short_name = "cry",
+    name = "CryEngine",
+    subtext = "Achieve Your Vision",
+    rules = default_rules,
+    category_id = 6
+  },
+  {
+    short_name = "aly",
+    name = "Amazon Lumberyard",
+    subtext = "Open 3D Engine (O3DE)",
+    rules = default_rules,
+    category_id = 6
+  },
+  {
+    short_name = "p8",
+    name = "PICO-8",
+    subtext = "A fantasy console for making, sharing and playing tiny games",
+    rules = default_rules,
+    category_id = 6
+  },
+  {
+    short_name = "gms",
+    name = "GameMaker: Studio",
+    subtext = "The Ultimate 2D Game Development Environment",
+    rules = default_rules,
+    category_id = 6
+  },
 
 }
 local function seed(db, token, bcrypt)

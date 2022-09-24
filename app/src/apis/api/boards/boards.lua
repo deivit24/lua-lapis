@@ -25,8 +25,10 @@ function action:POST()
     name = self.params.name,
     short_name = self.params.short_name,
     rules = self.params.rules,
-    subtext = self.params.subtext
+    subtext = self.params.subtext,
+    category_id = self.params.category_id
   }
+
   trim_filter(params)
   assert_valid(params, Boards.valid_record)
 

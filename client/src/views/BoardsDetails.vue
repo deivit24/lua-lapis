@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row no-gutters>
-      <v-col cols="12" md="6" class="text-center mt-5">
+      <v-col cols="12" class="text-center mt-5">
         <v-skeleton-loader
           v-if="loadingBoard"
           type="list-item-three-line"
@@ -13,25 +13,52 @@
           <span>{{ board.subtext }}</span>
           <br />
         </div>
-        <board-editor :board-id="board.id" @newPost="addPost" class="my-3" />
+        <v-btn
+          v-if="!showEditor"
+          text
+          class="mt-2"
+          color="primary"
+          @click="showEditor = true"
+          >[ Create a Post ]</v-btn
+        >
+        <board-editor
+          v-if="showEditor"
+          :board-id="board.id"
+          @newPost="addPost"
+          class="my-3"
+        />
         <board-announcements
           v-if="isAnnouncement"
           :announcements="board.announcements"
         />
-
-        <span class="error--text">[RULES]</span>
-        <ul class="py-2 ml-8 text-left">
-          <li v-for="rule in board.rules?.split(',')" :key="rule">
-            {{ rule }}
-          </li>
-        </ul>
+        <v-dialog v-model="dialog" width="400px" persistent>
+          <v-card>
+            <v-card-title class="error--text"> [RULES] </v-card-title>
+            <v-card-text>
+              <ul class="py-2 text-left">
+                <li v-for="rule in board.rules?.split(',')" :key="rule">
+                  {{ rule }}
+                </li>
+              </ul>
+              <span>Do you agree to abide by these rules?</span>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn small text color="error" @click="$router.push('/')"
+                >[ I DISAGREE ]</v-btn
+              >
+              <v-btn small text color="success" @click="dialog = false"
+                >[ I AGREE ]</v-btn
+              >
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-col>
       <v-col
         cols="12"
-        md="6"
         id="posts"
         class="mt-5"
-        style="height: 90vh; overflow-y: auto; float: left; position: relative"
+        style="position: relative; margin-top: 400px"
       >
         <h1 class="text-center">Posts</h1>
         <p class="text-center mb-2 pb-1">1000 Character Limit</p>
@@ -64,11 +91,14 @@ export default {
   },
   data: () => ({
     board: {},
+    showEditor: false,
+    dialog: false,
     loadingBoard: false,
     loadingPosts: false,
     posts: [],
   }),
   created() {
+    this.dialog = true;
     this.getBoardDetails(this.$route.params.id);
     this.getBoardPosts(this.$route.params.id);
   },
@@ -109,6 +139,7 @@ export default {
     },
     addPost() {
       this.getBoardPosts(this.board.id);
+      this.showEditor = false;
     },
   },
 };

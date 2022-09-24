@@ -145,6 +145,7 @@ export default {
         short_name: this.shortName,
         subtext: this.subText,
         rules: this.rules.split("\n").join(","),
+        category_id: this.category.id,
       };
     },
   },
