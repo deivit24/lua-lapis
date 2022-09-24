@@ -6,15 +6,10 @@ local trim_filter  = require("lapis.util").trim_filter
 local models       = require("models")
 local role         = require "utils.role"
 local Boards       = models.boards
-local Posts        = models.posts
 
 function action:GET()
   -- Get all Todos
   local boards = assert_error(Boards:get_all())
-  for index, value in ipairs(boards) do
-    value.post_count = Posts:count_posts(value.id)
-    value.announcement_count = Boards:get_announcement_count(value.id)
-  end
   return {
     status = ngx.HTTP_OK,
     json = {

@@ -67,13 +67,27 @@ end
 -- @treturn table boards
 function Boards:get_all()
   local sql = [[
-		select
+		SELECT
+      categories.name as category,
 			boards.name,
 			boards.id,
 			boards.short_name,
       boards.subtext,
-			boards.rules
-		from boards
+			boards.rules,
+      boards.category_id,
+      COUNT( DISTINCT announcements.id) FILTER (WHERE announcements.board_id = boards.id) AS announcement_count,
+      COUNT( DISTINCT posts.id) FILTER (WHERE posts.board_id = boards.id) AS post_count
+		FROM boards, categories, announcements, posts
+    WHERE boards.category_id = categories.id
+    GROUP BY
+    categories.name,
+      boards.name,
+      boards.id,
+      boards.short_name,
+      boards.subtext,
+      boards.rules,
+      boards.category_id
+    ORDER BY boards.id ASC 
 	]]
   local boards = db.query(sql)
   return boards and boards or false, "FIXME: ALART!"

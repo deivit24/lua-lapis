@@ -1,7 +1,7 @@
 import { apiService } from "@/services/api";
 import authHeader from "@/services/authHeaders";
 export const PostsAPI = {
-  getPost: async (id, banned = true) => {
+  getPost: async (id) => {
     const res = await apiService.get(`/posts/${id}`, {
       headers: authHeader(),
     });
