@@ -21,6 +21,14 @@
           @click="showEditor = true"
           >[ Create a Post ]</v-btn
         >
+        <v-btn
+          v-if="isAuth && authUser.role >= 0"
+          text
+          class="mt-2"
+          color="warning"
+          @click="annDialog = true"
+          >[ New Announcement ]</v-btn
+        >
         <board-editor
           v-if="showEditor"
           :board-id="board.id"
@@ -30,6 +38,12 @@
         <board-announcements
           v-if="isAnnouncement"
           :announcements="board.announcements"
+        />
+        <board-announcements-create
+          :create-dialog="annDialog"
+          @close="annDialog = false"
+          :board-id="board.id"
+          @add="addAnnouncement"
         />
         <v-dialog v-model="dialog" width="400px" persistent>
           <v-card>
@@ -54,14 +68,7 @@
           </v-card>
         </v-dialog>
       </v-col>
-      <v-col
-        cols="12"
-        id="posts"
-        class="mt-5"
-        style="position: relative; margin-top: 400px"
-      >
-        <h1 class="text-center">Posts</h1>
-        <p class="text-center mb-2 pb-1">1000 Character Limit</p>
+      <v-col cols="12" id="posts" class="mt-5">
         <v-skeleton-loader
           v-if="loadingPosts"
           type="list-item-avatar, divider, list-item-three-line, card-heading, image, actions"
@@ -70,6 +77,11 @@
           <template v-for="post in posts">
             <board-post-card :post="post" :key="post.id" />
           </template>
+        </div>
+        <div v-if="Object.keys(posts).length === 0">
+          <p class="text-center mb-2 pb-1">
+            There are no posts on this board yet
+          </p>
         </div>
       </v-col>
     </v-row>
@@ -81,18 +93,21 @@ import { BoardsApi } from "../services/boards";
 import BoardEditor from "../components/Board/BoardEditor";
 import BoardPostCard from "../components/Board/BoardPostCard";
 import BoardAnnouncements from "../components/Board/BoardAnnouncements";
-
+import { mapGetters, mapActions } from "vuex";
+import BoardAnnouncementsCreate from "../components/Board/BoardAnnouncementsCreate";
 export default {
   name: "BoardsDetails",
   components: {
     BoardEditor,
     BoardPostCard,
     BoardAnnouncements,
+    BoardAnnouncementsCreate,
   },
   data: () => ({
     board: {},
     showEditor: false,
     dialog: false,
+    annDialog: false,
     loadingBoard: false,
     loadingPosts: false,
     posts: [],
@@ -103,6 +118,10 @@ export default {
     this.getBoardPosts(this.$route.params.id);
   },
   computed: {
+    ...mapGetters({
+      authUser: "auth/user",
+      isAuth: "auth/isLoggedIn",
+    }),
     title() {
       return `/${this.board?.short_name}/ - ${this.board?.name}`;
     },
@@ -115,6 +134,9 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      addNotification: "notifications/addNotification",
+    }),
     async getBoardDetails(id) {
       try {
         this.loadingBoard = true;
@@ -125,6 +147,9 @@ export default {
       } finally {
         this.loadingBoard = false;
       }
+    },
+    addAnnouncement(announcement) {
+      this.board.announcements.unshift(announcement);
     },
     async getBoardPosts(id, banned = false) {
       try {
