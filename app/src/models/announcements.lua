@@ -6,9 +6,10 @@ local Announcements        = Model:extend("announcements", {
   }
 })
 Announcements.type         = enum {
-  info = 1,
-  warning = 2,
-  error = 3
+  success = 1,
+  info = 2,
+  warning = 3,
+  error = 4
 }
 Announcements.valid_record = {
   { "board_id", is_integer = true },
