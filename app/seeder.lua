@@ -292,7 +292,8 @@ local function seed(db, token, bcrypt)
       name = value.name,
       subtext = value.subtext,
       rules = value.rules,
-      category_id = value.category_id
+      category_id = value.category_id,
+      created_at = os.date()
     })
   end
 

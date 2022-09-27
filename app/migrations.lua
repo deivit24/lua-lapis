@@ -49,6 +49,7 @@ return {
       { "post_comment", types.boolean { default = false } },
       { "post_limit", types.integer { default = 250 } },
       { "archive", types.boolean { default = false } },
+      { "created_at", schema.types.time },
     })
 
     schema.create_table("posts", {
