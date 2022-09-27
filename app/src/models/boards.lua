@@ -66,7 +66,14 @@ end
 
 --- Get all boards
 -- @treturn table boards
-function Boards:get_all()
+function Boards:get_all(popular)
+  local popular_sql
+  if popular == "true" then
+    popular_sql = "ORDER BY post_count DESC LIMIT 10"
+  else
+    popular_sql = "ORDER BY boards.id ASC"
+  end
+
   local sql = [[
 		SELECT
       categories.name as category,
@@ -76,6 +83,7 @@ function Boards:get_all()
       boards.subtext,
 			boards.rules,
       boards.category_id,
+      boards.created_at,
       COUNT( DISTINCT announcements.id) FILTER (WHERE announcements.board_id = boards.id) AS announcement_count,
       COUNT( DISTINCT posts.id) FILTER (WHERE posts.board_id = boards.id) AS post_count
 		FROM boards, categories, announcements, posts
@@ -87,9 +95,7 @@ function Boards:get_all()
       boards.short_name,
       boards.subtext,
       boards.rules,
-      boards.category_id
-    ORDER BY boards.id ASC 
-	]]
+      boards.category_id ]] .. popular_sql
   local boards = db.query(sql)
   return boards and boards or false, "FIXME: ALART!"
 end

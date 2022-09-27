@@ -52,6 +52,22 @@
             </v-row>
           </v-card-text>
         </v-card>
+        <v-card flat outlined width="100%" class="mt-3">
+          <v-system-bar color="indigo">
+            <strong class="white--text">[ Top Ten Most Popular Boards ]</strong>
+          </v-system-bar>
+          <v-card-text>
+            <v-row no-gutters>
+              <template v-for="board in popularBoards">
+                <board-card
+                  :board="board"
+                  :key="board.id"
+                  @remove="removeCard"
+                />
+              </template>
+            </v-row>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -70,6 +86,7 @@ export default {
   name: "BoardsView",
   data: () => ({
     boards: [],
+    popularBoards: [],
     logo: WhiteLogo,
     isList: true,
   }),
@@ -93,9 +110,14 @@ export default {
     async getBoards() {
       const res = await BoardsApi.getAllBoards();
       this.boards = res.boards;
+      await this.getPopular();
     },
     removeCard(id) {
       this.boards = this.boards.filter((b) => b.id != id);
+    },
+    async getPopular() {
+      const res = await BoardsApi.getAllBoards(true);
+      this.popularBoards = res.boards;
     },
   },
 };

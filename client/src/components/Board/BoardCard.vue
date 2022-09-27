@@ -1,29 +1,32 @@
 <template>
   <v-col cols="12" md="4" :key="board.id" class="pa-2">
-    <v-card min-height="220" elevation="0">
-      <v-card-text>
+    <v-card height="180" elevation="0" outlined>
+      <v-card-text style="position: relative; height: 100%">
         <h3 class="mb-0 title" @click="$router.push('/boards/' + board.id)">
           /{{ board.short_name }}/ - {{ board.name }}
         </h3>
-        <span style="font-size: 0.8em" class="mb-2">
+        <p class="mb-0">
           {{ board.subtext }}
+        </p>
+        <p style="position: absolute; bottom: 30px" class="mb-0">
+          [ {{ board.category }} ]
+        </p>
+        <span style="font-size: 0.8em" class="mb-2">
+          Created {{ formatDate(board.created_at) }}
         </span>
-        <p class="mb-0 mt-2">Rules</p>
-        <ul>
-          <li v-for="rule in board.rules.split(',')" :key="rule">{{ rule }}</li>
-        </ul>
+        <h4 class="mb-2" style="position: absolute; bottom: 0; right: 15px">
+          {{ board.post_count }} Posts
+        </h4>
+        <h4 class="mb-2" style="position: absolute; bottom: 0; left: 15px">
+          {{ board.announcement_count }} Announcements
+        </h4>
       </v-card-text>
-      <v-card-actions v-if="authUser?.role >= 8">
-        <v-spacer></v-spacer>
-        <v-btn x-small text color="error" @click="deleteBoard(board.id)">
-          [ DELETE ]
-        </v-btn>
-      </v-card-actions>
     </v-card>
   </v-col>
 </template>
 
 <script>
+import moment from "moment";
 import { mapGetters, mapActions } from "vuex";
 import { BoardsApi } from "../../services/boards";
 export default {
@@ -60,6 +63,9 @@ export default {
           type: "error",
         });
       }
+    },
+    formatDate(date) {
+      return moment(date).utc(true).fromNow();
     },
   },
 };

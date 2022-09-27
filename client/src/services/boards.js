@@ -1,8 +1,10 @@
 import { apiService } from "@/services/api";
 import authHeader from "@/services/authHeaders";
 export const BoardsApi = {
-  getAllBoards: async () => {
-    const res = await apiService.get("/boards");
+  getAllBoards: async (popular = false) => {
+    const res = await apiService.get("/boards", {
+      params: { popular: popular },
+    });
     return res.data;
   },
   getBoard: async (id) => {
