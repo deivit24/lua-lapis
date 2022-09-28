@@ -81,7 +81,11 @@
         [ DELETE ]
       </v-btn>
     </v-card-actions>
-    <board-post-comments :comments="comments" v-if="!isPreview" />
+    <board-post-comments
+      :comments="comments"
+      v-if="!isPreview"
+      @submit="submitReply"
+    />
   </v-card>
 </template>
 
@@ -161,23 +165,43 @@ export default {
         });
       }
     },
-    async submitComment(comment) {
+    async submitComment(comment, commentId = 0) {
       try {
         this.comment = comment;
         const data = {
           body: this.comment,
+          comment_id: commentId,
         };
         const res = await BoardsApi.creatComment(
           this.boardPost.board_id,
           this.boardPost.id,
           data
         );
+        res.comment.post_id = parseInt(res.comment.post_id);
+
         this.comments.push(res.comment);
         this.comments.sort(function (a, b) {
           return b.id - a.id;
         });
         this.comment = "";
         this.$refs.commentEditor.reset();
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async submitReply(data) {
+      try {
+        const res = await BoardsApi.creatComment(
+          this.boardPost.board_id,
+          this.boardPost.id,
+          data
+        );
+        console.log(res);
+        res.comment.post_id = parseInt(res.comment.post_id);
+        this.comments.push(res.comment);
+        this.comments.sort(function (a, b) {
+          return b.id - a.id;
+        });
       } catch (error) {
         console.error(error);
       }

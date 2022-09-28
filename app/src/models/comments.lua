@@ -1,3 +1,4 @@
+local db = require "lapis.db"
 local Model = require("lapis.db.model").Model
 local Comments = Model:extend("comments", {
   relations = {
@@ -24,9 +25,30 @@ end
 -- @tparam number thread_id Thread ID
 -- @treturn table posts
 function Comments:get_post_comments(post_id)
-
-  local sql = "WHERE post_id=? ORDER BY id desc limit 10"
-  local comments = self:select(sql, post_id)
+  local long_sql = [[
+		SELECT
+			c.name,
+			c.id,
+			c.comment_id,
+      c.reply_id,
+			c.post_id,
+      c.created_at,
+      c.user_id,
+      c.body,
+      (select count(*) from comments where comment_id=c.id and c.comment_id = 0 ) as reply_count
+		FROM comments c
+    WHERE c.post_id = ]] .. post_id .. [[
+    GROUP BY
+    c.name,
+			c.id,
+			c.comment_id,
+      c.reply_id,
+			c.post_id,
+      c.created_at,
+      c.user_id,
+      c.body ORDER BY reply_count DESC, id DESC LIMIT 20]]
+  local sql = " count(comments.comment_id) as mycount WHERE post_id=? ORDER BY id desc limit 10"
+  local comments = db.query(long_sql)
 
   return comments
 end
