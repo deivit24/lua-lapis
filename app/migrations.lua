@@ -71,6 +71,8 @@ return {
 
     schema.create_table("comments", {
       { "id", types.serial { unique = true, primary_key = true } },
+      { "comment_id", types.integer { null = true } },
+      { "reply_id", types.integer { null = true } },
       { "post_id", types.integer },
       { "created_at", types.time },
       { "user_id", types.integer { null = true } },

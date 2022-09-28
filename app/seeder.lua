@@ -339,7 +339,7 @@ local function seed(db, token, bcrypt)
     api_key = uuid(),
   })
   db.insert("comments", {
-    name = "Anon User",
+    name = "Anon User 12345",
     body = "Hello this is a test comment",
     ip = "123.123.124",
     post_id = 1,
@@ -348,6 +348,23 @@ local function seed(db, token, bcrypt)
   db.insert("comments", {
     name = "Killua",
     body = "Hello this is a second commet",
+    ip = "123.123.125",
+    post_id = 1,
+    created_at = os.date()
+  })
+  db.insert("comments", {
+    name = "Anon 98765",
+    comment_id = 2,
+    body = "Hello replying to Killua?",
+    ip = "123.123.125",
+    post_id = 1,
+    created_at = os.date()
+  })
+  db.insert("comments", {
+    name = "Gon Freeces",
+    comment_id = 2,
+    reply_id = 3,
+    body = "Hey asshole shut the fuck up",
     ip = "123.123.125",
     post_id = 1,
     created_at = os.date()
