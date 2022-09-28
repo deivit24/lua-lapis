@@ -84,6 +84,7 @@
     <board-post-comments
       :comments="comments"
       v-if="!isPreview"
+      ref="postComments"
       @submit="submitReply"
     />
   </v-card>
@@ -178,11 +179,13 @@ export default {
           data
         );
         res.comment.post_id = parseInt(res.comment.post_id);
+        if (res.comment.comment_id == 0) {
+          this.comments.push(res.comment);
+          this.comments.sort(function (a, b) {
+            return b.id - a.id;
+          });
+        }
 
-        this.comments.push(res.comment);
-        this.comments.sort(function (a, b) {
-          return b.id - a.id;
-        });
         this.comment = "";
         this.$refs.commentEditor.reset();
       } catch (error) {
@@ -196,12 +199,13 @@ export default {
           this.boardPost.id,
           data
         );
-        console.log(res);
-        res.comment.post_id = parseInt(res.comment.post_id);
-        this.comments.push(res.comment);
-        this.comments.sort(function (a, b) {
-          return b.id - a.id;
-        });
+        console.log(res.comment);
+        const isReply = res.comment.reply_id > 0;
+        await this.$refs.postComments.showReplies(
+          res.comment.comment_id,
+          true,
+          isReply
+        );
       } catch (error) {
         console.error(error);
       }

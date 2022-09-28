@@ -25,7 +25,7 @@ end
 -- @tparam number thread_id Thread ID
 -- @treturn table posts
 function Comments:get_post_comments(post_id)
-  local long_sql = [[
+  local sql = [[
 		SELECT
 			c.name,
 			c.id,
@@ -35,20 +35,39 @@ function Comments:get_post_comments(post_id)
       c.created_at,
       c.user_id,
       c.body,
-      (select count(*) from comments where comment_id=c.id and c.comment_id = 0 ) as reply_count
+      (select count(*) from comments where comment_id=c.id and c.comment_id = 0 ) as reply_count,
+      FALSE as show
 		FROM comments c
-    WHERE c.post_id = ]] .. post_id .. [[
-    GROUP BY
-    c.name,
+    WHERE c.comment_id = 0 AND c.post_id = ]] .. post_id .. [[
+    ORDER BY reply_count DESC, id DESC LIMIT 10]]
+  local comments = db.query(sql)
+
+  return comments
+end
+
+--- Get op and last 5 posts of a thread to display on board index
+-- @tparam number thread_id Thread ID
+-- @treturn table posts
+function Comments:get_comment_replies(post_id, comment_id, page)
+  if page == nil then
+    page = 1
+  end
+  local offset = (page - 1) * 10
+  local sql = [[
+		SELECT
+			c.name,
 			c.id,
 			c.comment_id,
       c.reply_id,
 			c.post_id,
       c.created_at,
       c.user_id,
-      c.body ORDER BY reply_count DESC, id DESC LIMIT 20]]
-  local sql = " count(comments.comment_id) as mycount WHERE post_id=? ORDER BY id desc limit 10"
-  local comments = db.query(long_sql)
+      c.body,
+      (select comments.name from comments where id=c.reply_id ) as replyName
+		FROM comments c
+    WHERE c.post_id = ]] .. post_id .. [[ AND c.comment_id = ]] .. comment_id .. [[ 
+    ORDER BY id ASC LIMIT 10 OFFSET ]] .. offset
+  local comments = db.query(sql)
 
   return comments
 end

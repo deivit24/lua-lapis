@@ -25,6 +25,20 @@ export const BoardsApi = {
     );
     return res.data;
   },
+  getBoardPostCommentReplies: async (
+    board_id,
+    post_id,
+    comment_id,
+    page = 1
+  ) => {
+    const res = await apiService.get(
+      `/boards/${board_id}/posts/${post_id}/comments/${comment_id}`,
+      {
+        params: { page: page },
+      }
+    );
+    return res.data;
+  },
   creatComment: async (board_id, post_id, data) => {
     const res = await apiService.post(
       `/boards/${board_id}/posts/${post_id}/comments`,

@@ -13,6 +13,8 @@ app:match("board", "/:id", capture({ on_error = handle, json_params(r2(require "
 app:match("posts", "/:board_id/posts", capture({ on_error = handle, json_params(r2(require "apis.api.posts.posts")) }))
 app:match("comments", "/:board_id/posts/:post_id/comments",
   capture({ on_error = handle, json_params(r2(require "apis.api.comments.comments")) }))
+app:match("comment", "/:board_id/posts/:post_id/comments/:comment_id",
+  capture({ on_error = handle, json_params(r2(require "apis.api.comments.comment")) }))
 app:match("reports", "/:board_id/posts/:post_id/reports",
   capture({ on_error = handle, json_params(r2(require "apis.api.reports.reports")) }))
 
