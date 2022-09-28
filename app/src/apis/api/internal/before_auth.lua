@@ -3,6 +3,7 @@ local yield_error  = require("lapis.application").yield_error
 local mime         = require "mime"
 local models       = require "models"
 local Users        = models.users
+local uuid         = require "resty.jit-uuid"
 
 return function(self)
 
@@ -34,9 +35,10 @@ return function(self)
 	end
 
 	-- Set basic User
+	local unique = uuid()
 	self.api_user = {
 		id       = -1,
 		role     = -1,
-		username = "Anon User"
+		username = "Anon User " .. unique:sub(1, 8)
 	}
 end
