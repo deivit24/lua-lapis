@@ -23,7 +23,9 @@ function action:POST()
     body = self.params.body,
     post_id = self.params.post_id,
     user_id = self.api_user.id,
-    created_at = os.date()
+    created_at = os.date(),
+    comment_id = self.params.comment_id,
+    reply_id = self.params.reply_id
   }
   params.ip = self.req.headers["X-Real-IP"] or self.req.remote_addr
   trim_filter(params)
