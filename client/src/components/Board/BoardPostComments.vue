@@ -1,6 +1,6 @@
 <template>
   <v-list class="pl-5">
-    <template v-for="comment in treeComments">
+    <template v-for="comment in dataComments">
       <v-list-item :key="comment.id" three-line>
         <v-list-item-content>
           <v-list-item-title class="default--text">
@@ -27,45 +27,37 @@
             class="mt-2"
             v-html="comment.body"
           ></v-list-item-subtitle>
-          <div class="ml-4" v-if="comment.children.length > 0">
-            <template v-for="reply in comment.children">
-              <v-list-item
-                style="border-left: 5px solid lightgrey"
-                class="my-2"
-                three-line
-                :key="reply.id"
-              >
-                <v-list-item-content>
-                  <v-list-item-title class="default--text">
-                    <v-icon
-                      v-if="reply.user_id > 0"
-                      color="primary"
-                      x-small
-                      class="mr-2"
-                      >mdi-account</v-icon
-                    >{{ reply.name }} -
-                    <span style="font-size: 0.875rem">
-                      commented {{ formatDate(reply.created_at) }}</span
-                    >
-                    -
-                    <v-btn
-                      text
-                      color="primary"
-                      @click="openReply(reply)"
-                      x-small
-                      >[ reply ]</v-btn
-                    >
-                  </v-list-item-title>
-                  <v-list-item-subtitle
-                    class="mt-2"
-                    v-html="addToReply(reply.body, reply.replyName)"
-                  >
-                  </v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </template>
-          </div>
+          <board-post-comment-replies
+            :show="comment.show"
+            :post-id="comment.post_id"
+            :comment-id="comment.id"
+            @reply="openReply"
+            ref="replies"
+          />
         </v-list-item-content>
+        <v-list-item-action>
+          <v-list-item-action-text>
+            <v-btn
+              text
+              v-if="comment.reply_count > 0 && comment.show == true"
+              color="warning"
+              x-small
+              @click="showReplies(comment.id, false)"
+            >
+              [ - hide replies ]</v-btn
+            >
+            <v-btn
+              text
+              v-if="comment.reply_count > 0 && !comment.show"
+              color="info"
+              x-small
+              @click="showReplies(comment.id, true)"
+            >
+              [ + view replies ]</v-btn
+            >
+            [ {{ showReplyCount(comment.reply_count) }} replies ]
+          </v-list-item-action-text>
+        </v-list-item-action>
       </v-list-item>
     </template>
     <reply-dialog
@@ -80,9 +72,10 @@
 <script>
 import moment from "moment";
 import ReplyDialog from "../Dialogs/ReplyDialog";
+import BoardPostCommentReplies from "./BoardPostCommentReplies";
 export default {
   name: "BoardPostComments",
-  components: { ReplyDialog },
+  components: { ReplyDialog, BoardPostCommentReplies },
   props: {
     comments: {
       type: Array,
@@ -94,38 +87,25 @@ export default {
     replyName: "",
     commentId: 0,
     replyId: 0,
+    updateKey: 1,
+    dataComments: [],
   }),
-  computed: {
-    treeComments() {
-      if (this.comments == {}) return [];
-      var list = this.comments;
-      var map = {},
-        node,
-        roots = [],
-        i;
-
-      for (i = 0; i < list.length; i += 1) {
-        map[list[i].id] = i; // initialize the map
-        list[i].children = []; // initialize the children
-        list[i].replyName = "";
-      }
-
-      for (i = 0; i < list.length; i += 1) {
-        node = list[i];
-        if (node.comment_id !== 0) {
-          // if you have dangling branches check that map[node.comment_id] exists
-          if (node.reply_id !== 0) {
-            node.replyName = list.filter((c) => c.id == node.reply_id)[0]?.name;
-          }
-          list[map[node.comment_id]].children.unshift(node);
-        } else {
-          roots.push(node);
-        }
-      }
-      return roots;
+  watch: {
+    comments(val) {
+      this.dataComments = val;
     },
   },
   methods: {
+    async showReplies(commentId, show, isReply = false) {
+      const found = this.dataComments.filter((c) => c.id == commentId)[0];
+
+      if (isReply) {
+        await this.$refs.replies
+          .filter((c) => c.commentId == commentId)[0]
+          .getReplies();
+      }
+      found.show = show;
+    },
     formatDate(date) {
       return moment(date).utc(true).fromNow();
     },
@@ -160,6 +140,10 @@ export default {
       };
       this.$emit("submit", data);
       this.closeReply();
+    },
+    showReplyCount(count) {
+      if (!count) return 0;
+      return count;
     },
   },
 };
