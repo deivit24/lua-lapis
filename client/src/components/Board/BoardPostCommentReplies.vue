@@ -36,6 +36,17 @@
         </v-list-item-content>
       </v-list-item>
     </template>
+    <v-row>
+      <v-spacer></v-spacer>
+      <v-pagination
+        class="mr-4"
+        v-model="page"
+        color="indigo"
+        :length="totalPages"
+        prev-icon="mdi-menu-left"
+        next-icon="mdi-menu-right"
+      ></v-pagination>
+    </v-row>
   </div>
 </template>
 
@@ -57,24 +68,39 @@ export default {
       type: Number,
       required: true,
     },
+    totalComments: {
+      type: Number,
+      required: true,
+    },
   },
   data: () => ({
     replies: [],
+    page: 1,
   }),
+  computed: {
+    totalPages() {
+      console.log(Math.ceil(this.totalComments / 10));
+      return Math.ceil(this.totalComments / 10);
+    },
+  },
   watch: {
     async show(val) {
+      this.page = 1;
       if (val) await this.getReplies();
+    },
+    async page(val) {
+      await this.getReplies(val);
     },
   },
   methods: {
-    async getReplies() {
+    async getReplies(page = 1) {
       const res = await BoardsApi.getBoardPostCommentReplies(
         1,
         this.postId,
         this.commentId,
-        1
+        page
       );
-      this.replies = res.replies;
+      this.replies = res.replies.sort((a, b) => a.id - b.id);
     },
     formatDate(date) {
       return moment(date).utc(true).fromNow();

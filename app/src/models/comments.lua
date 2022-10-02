@@ -66,7 +66,7 @@ function Comments:get_comment_replies(post_id, comment_id, page)
       (select comments.name from comments where id=c.reply_id ) as replyName
 		FROM comments c
     WHERE c.post_id = ]] .. post_id .. [[ AND c.comment_id = ]] .. comment_id .. [[ 
-    ORDER BY id ASC LIMIT 10 OFFSET ]] .. offset
+    ORDER BY c.created_at DESC LIMIT 10 OFFSET ]] .. offset
   local comments = db.query(sql)
 
   return comments
