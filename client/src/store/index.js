@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import auth from "./modules/auth";
 import notifications from "./modules/notifications";
 import boards from "./modules/boards";
+import dialog from "./modules/dialog";
 
 Vue.use(Vuex);
 
@@ -11,5 +12,6 @@ export default new Vuex.Store({
     auth,
     notifications,
     boards,
+    dialog,
   },
 });

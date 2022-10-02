@@ -82,7 +82,7 @@ export default {
     addToReply(body, replyName) {
       let name = "";
       if (replyName)
-        name = `<p class="mb-0"><strong class="mr-2">@${replyName}</strong>`;
+        name = `<p class="mb-0"><strong class="mr-2 primary--text">@${replyName}</strong>`;
       return name + `${body}</p>`;
     },
   },

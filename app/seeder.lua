@@ -9,14 +9,14 @@ local default_rules = [[ SFW Board,
 local boards = {
   {
     short_name = "lua",
-    name = "Lua Programing",
+    name = "Lua",
     subtext = "Metatables for President",
     rules = default_rules,
     category_id = 1
   },
   {
-    short_name = "python",
-    name = "Python Programing",
+    short_name = "py",
+    name = "Python",
     subtext = "Complex is better than complicated.",
     rules = default_rules,
     category_id = 1

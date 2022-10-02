@@ -4,7 +4,10 @@
       <v-col cols="12" class="d-flex flex-column align-center justify-center">
         <v-img :src="logo" width="50%"> </v-img>
 
-        <InfoLluv />
+        <InfoLluv
+          @setRules="setRules('LLUV RULES')"
+          @setFAQs="setRules('FAQs')"
+        />
 
         <v-card flat outlined width="100%" class="mt-3">
           <v-system-bar color="indigo">
@@ -77,7 +80,7 @@
 import BoardCard from "../components/Board/BoardCard";
 import BoardList from "../components/Board/BoardList";
 import { BoardsApi } from "../services/boards";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import WhiteLogo from "../assets/WhiteLogo.png";
 import BlackLogo from "../assets/BlackLogo.png";
 import InfoLluv from "../components/Info/InfoLLUV.vue";
@@ -107,6 +110,9 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      setDialog: "dialog/setDialog",
+    }),
     async getBoards() {
       const res = await BoardsApi.getAllBoards();
       this.boards = res.boards;
@@ -118,6 +124,13 @@ export default {
     async getPopular() {
       const res = await BoardsApi.getAllBoards(true);
       this.popularBoards = res.boards;
+    },
+    setRules(title) {
+      this.setDialog({
+        dialog: true,
+        closeText: "Close",
+        title: title,
+      });
     },
   },
 };
