@@ -30,6 +30,7 @@
           <board-post-comment-replies
             :show="comment.show"
             :post-id="comment.post_id"
+            :total-comments="totalComments"
             :comment-id="comment.id"
             @reply="openReply"
             ref="replies"
@@ -88,22 +89,23 @@ export default {
     commentId: 0,
     replyId: 0,
     updateKey: 1,
+    totalComments: 0,
     dataComments: [],
   }),
   watch: {
     comments(val) {
+      if (val.length > 0) this.totalComments = val[0].reply_count;
       this.dataComments = val;
     },
   },
   methods: {
-    async showReplies(commentId, show, isReply = false) {
+    async showReplies(commentId, show) {
       const found = this.dataComments.filter((c) => c.id == commentId)[0];
 
-      if (isReply) {
-        await this.$refs.replies
-          .filter((c) => c.commentId == commentId)[0]
-          .getReplies();
-      }
+      await this.$refs.replies
+        .filter((c) => c.commentId == commentId)[0]
+        .getReplies();
+
       found.show = show;
     },
     formatDate(date) {

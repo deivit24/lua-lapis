@@ -162,8 +162,8 @@ export default {
         this.loadingPosts = false;
       }
     },
-    addPost() {
-      this.getBoardPosts(this.board.id);
+    addPost(post) {
+      this.posts.unshift(post);
       this.showEditor = false;
     },
   },

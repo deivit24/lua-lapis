@@ -200,12 +200,8 @@ export default {
           data
         );
         console.log(res.comment);
-        const isReply = res.comment.reply_id > 0;
-        await this.$refs.postComments.showReplies(
-          res.comment.comment_id,
-          true,
-          isReply
-        );
+
+        await this.$refs.postComments.showReplies(res.comment.comment_id, true);
       } catch (error) {
         console.error(error);
       }

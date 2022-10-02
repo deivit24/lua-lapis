@@ -307,8 +307,8 @@ export default {
           delete data.file_base64;
         }
 
-        await BoardsApi.createBoardPost(this.boardId, data);
-        this.$emit("newPost");
+        const res = await BoardsApi.createBoardPost(this.boardId, data);
+        this.$emit("newPost", res.post);
         this.reset();
       } catch (e) {
         this.errorMessage = e.response.data[0];

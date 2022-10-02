@@ -1,3 +1,4 @@
+local db = require "lapis.db"
 local Model = require("lapis.db.model").Model
 local Posts = Model:extend("posts", {
   relations = {
@@ -32,9 +33,27 @@ end
 -- @tparam number thread_id Thread ID
 -- @treturn table posts
 function Posts:get_board_posts(board_id, banned)
+  local long_sql = [[
+    SELECT
+      p.id,
+      p.name,
+      p.board_id,
+      p.banned,
+      p.body,
+      p.created_at,
+      p.file_base64,
+      p.file_size,
+      p.lewd,
+      p.subject,
+      p.user_id,
+      (select count(*) from comments where comments.post_id=p.id) as comment_count
+    FROM posts as p
+    WHERE p.board_id =]] .. board_id .. [[ AND p.]] .. banned .. [[ ORDER BY comment_count DESC LIMIT 10
+
+  ]]
 
   local sql = "WHERE board_id=? AND " .. banned .. " ORDER BY id desc limit 10"
-  local posts = self:select(sql, board_id)
+  local posts = db.query(long_sql)
 
   return posts
 end
