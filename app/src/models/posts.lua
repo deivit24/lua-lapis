@@ -46,7 +46,8 @@ function Posts:get_board_posts(board_id, banned)
       p.lewd,
       p.subject,
       p.user_id,
-      (select count(*) from comments where comments.post_id=p.id) as comment_count
+      (select count(*) from comments where comments.post_id=p.id) as comment_count,
+      (select count(*) from comments where comments.post_id=p.id AND comments.comment_id = 0) as parent_comment_count
     FROM posts as p
     WHERE p.board_id =]] .. board_id .. [[ AND p.]] .. banned .. [[ ORDER BY comment_count DESC LIMIT 10
 

@@ -19,9 +19,12 @@ export const BoardsApi = {
     });
     return res.data;
   },
-  getBoardPostComments: async (board_id, post_id) => {
+  getBoardPostComments: async (board_id, post_id, page = 1) => {
     const res = await apiService.get(
-      `/boards/${board_id}/posts/${post_id}/comments`
+      `/boards/${board_id}/posts/${post_id}/comments`,
+      {
+        params: { page: page },
+      }
     );
     return res.data;
   },
