@@ -87,6 +87,16 @@
       ref="postComments"
       @submit="submitReply"
     />
+    <v-row no-gutters class="pb-2">
+      <v-pagination
+        class="mr-4"
+        v-model="page"
+        color="indigo"
+        :length="totalPages"
+        prev-icon="mdi-menu-left"
+        next-icon="mdi-menu-right"
+      ></v-pagination>
+    </v-row>
   </v-card>
 </template>
 
@@ -113,17 +123,26 @@ export default {
     boardPost: {},
     comments: [],
     comment: "",
+    page: 1,
     show: false,
   }),
   created() {
     this.boardPost = this.post;
     this.getComments(this.boardPost.board_id, this.boardPost.id);
   },
+  watch: {
+    page(val) {
+      this.getComments(this.boardPost.board_id, this.boardPost.id, val);
+    },
+  },
   computed: {
     ...mapGetters({
       authUser: "auth/user",
       isAuth: "auth/isLoggedIn",
     }),
+    totalPages() {
+      return Math.ceil(this.boardPost.parent_comment_count / 10);
+    },
     lewdClass() {
       if (this.boardPost.lewd) return "lewdClass";
       return "";
@@ -136,8 +155,8 @@ export default {
     formatDate(date) {
       return moment(date).utc(true).fromNow();
     },
-    async getComments(boardId = 1, postId) {
-      const res = await BoardsApi.getBoardPostComments(boardId, postId);
+    async getComments(boardId = 1, postId, page = 1) {
+      const res = await BoardsApi.getBoardPostComments(boardId, postId, page);
       if (res.comments.length > 0) {
         this.comments = res.comments;
       } else {

@@ -24,7 +24,11 @@ end
 --- Get op and last 5 posts of a thread to display on board index
 -- @tparam number thread_id Thread ID
 -- @treturn table posts
-function Comments:get_post_comments(post_id)
+function Comments:get_post_comments(post_id, page)
+  if page == nil then
+    page = 1
+  end
+  local offset = (page - 1) * 10
   local sql = [[
 		SELECT
 			c.name,
@@ -39,7 +43,7 @@ function Comments:get_post_comments(post_id)
       FALSE as show
 		FROM comments c
     WHERE c.comment_id = 0 AND c.post_id = ]] .. post_id .. [[
-    ORDER BY reply_count DESC, id DESC LIMIT 10]]
+    ORDER BY reply_count DESC, id DESC LIMIT 10 OFFSET ]] .. offset
   local comments = db.query(sql)
 
   return comments

@@ -36,10 +36,11 @@
         </v-list-item-content>
       </v-list-item>
     </template>
-    <v-row>
+    <v-row no-gutters>
       <v-spacer></v-spacer>
       <v-pagination
         class="mr-4"
+        dense
         v-model="page"
         color="indigo"
         :length="totalPages"
@@ -79,7 +80,6 @@ export default {
   }),
   computed: {
     totalPages() {
-      console.log(Math.ceil(this.totalComments / 10));
       return Math.ceil(this.totalComments / 10);
     },
   },

@@ -1,14 +1,16 @@
-local ngx          = _G.ngx
-local action       = setmetatable({}, require "apis.api.internal.action_base")
-local assert_error = require("lapis.application").assert_error
-local assert_valid = require("lapis.validate").assert_valid
-local trim_filter  = require("lapis.util").trim_filter
-local models       = require("models")
-local Comments     = models.comments
+local ngx                = _G.ngx
+local action             = setmetatable({}, require "apis.api.internal.action_base")
+local assert_error       = require("lapis.application").assert_error
+local assert_valid       = require("lapis.validate").assert_valid
+local trim_filter        = require("lapis.util").trim_filter
+local parse_query_string = require("lapis.util").parse_query_string
+local models             = require("models")
+local Comments           = models.comments
 
 function action:GET()
   local post_id = tonumber(self.params.post_id)
-  local comments = assert_error(Comments:get_post_comments(post_id))
+  local page = parse_query_string(self.req.parsed_url.query).page
+  local comments = assert_error(Comments:get_post_comments(post_id, page))
   return {
     status = ngx.HTTP_OK,
     json = {

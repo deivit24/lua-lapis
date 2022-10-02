@@ -156,6 +156,7 @@ export default {
         this.loadingPosts = true;
         const res = await BoardsApi.getBoardPosts(id, banned);
         this.posts = res.posts;
+        console.log(res.posts);
       } catch (error) {
         console.error(error);
       } finally {
