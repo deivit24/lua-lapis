@@ -109,12 +109,6 @@ export default {
     formatDate(date) {
       return moment(date).utc(true).fromNow();
     },
-    addToReply(body, replyName) {
-      let name = "";
-      if (replyName)
-        name = `<p class="mb-0"><strong class="mr-2">@${replyName}</strong>`;
-      return name + `${body}</p>`;
-    },
     openReply(comment, isReply = true) {
       if (isReply) {
         this.replyId = comment.id;
@@ -148,5 +142,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

@@ -22,7 +22,7 @@
           >[ Create a Post ]</v-btn
         >
         <v-btn
-          v-if="isAuth && authUser.role >= 0"
+          v-if="isAuth && authUser.role >= 8"
           text
           class="mt-2"
           color="warning"

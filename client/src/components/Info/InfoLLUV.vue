@@ -17,8 +17,10 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn text color="primary" x-small>[ Rules ]</v-btn>
-      <v-btn text x-small>[ FAQ ]</v-btn>
+      <v-btn text color="primary" @click="$emit('setRules')" x-small
+        >[ Rules ]</v-btn
+      >
+      <v-btn text x-small @click="$emit('setFAQs')">[ FAQ ]</v-btn>
     </v-card-actions>
   </v-card>
 </template>
