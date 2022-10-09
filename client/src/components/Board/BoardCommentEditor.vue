@@ -44,6 +44,15 @@
       </v-btn>
       <span class="separator">|</span>
       <v-btn
+        @click="openFileSelector"
+        :class="[{ 'is-active': editor.isActive('file') }, 'tool-btn']"
+        icon
+        small
+      >
+        <v-icon>mdi-paperclip</v-icon>
+      </v-btn>
+      <span class="separator">|</span>
+      <v-btn
         @click="editor.chain().focus().toggleCode().run()"
         :class="[{ 'is-active': editor.isActive('code') }, 'tool-btn']"
         icon
@@ -61,6 +70,27 @@
       </v-btn>
     </v-row>
     <editor-content class="text-left" :editor="editor" />
+    <v-file-input
+      id="commentFileUpload"
+      v-model="file"
+      accept="image/*"
+      label="File input"
+      prepend-icon=""
+      hide-details
+      solo
+      show-size
+      color="default"
+      style="width: 200px"
+      flat
+      :class="display"
+      dense
+    >
+      <template v-slot:selection="{ text }">
+        <v-chip small label color="default">
+          {{ text }}
+        </v-chip>
+      </template></v-file-input
+    >
     <v-card-actions class="justify-end pt-2">
       <v-btn x-small text class="mr-2" color="error" @click="reset">
         [ DISCARD COMMENT ]
@@ -83,7 +113,22 @@ export default {
   },
   data: () => ({
     editor: null,
+    file: null,
+    display: "d-none",
+    base64: null,
   }),
+  watch: {
+    file(value) {
+      if (value) {
+        this.display = "";
+        this.createBase64Image(value);
+        console.log(this.base64);
+      } else {
+        this.display = "d-none";
+        this.base64 = null;
+      }
+    },
+  },
   created() {
     this.editor = new Editor({
       autoFocus: true,
@@ -99,14 +144,28 @@ export default {
     this.editor.destroy();
   },
   methods: {
+    createBase64Image: function (FileObject) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        this.base64 = event.target.result;
+      };
+      reader.readAsDataURL(FileObject);
+    },
     reset() {
       this.$emit("close");
       this.editor.commands.setContent("<p></p>");
     },
     submitComment() {
       const value = this.editor.getHTML();
+      const data = {
+        body: value,
+      };
+      console.log(data);
       if (value === "<p></p>") return;
       this.$emit("submit", value);
+    },
+    openFileSelector() {
+      document.getElementById("commentFileUpload").click();
     },
   },
 };
