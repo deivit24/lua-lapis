@@ -104,7 +104,7 @@ end
 -- @tparam string name Board's short name
 -- @treturn table board
 function Boards:get(name)
-  local board = self:find { name = name }
+  local board = self:find { short_name = name }
   return board and board or false, "FIXME: ALART!"
 end
 

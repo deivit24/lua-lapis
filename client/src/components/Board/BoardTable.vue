@@ -11,7 +11,7 @@
           small
           class="mr-2"
           color="success"
-          @click="$router.push('/boards/' + item.id)"
+          @click="$router.push('/boards/' + item.short_name)"
         >
           mdi-eye
         </v-icon>

@@ -7,7 +7,7 @@ local models       = require "models"
 local Boards       = models.boards
 
 function action:GET()
-  local board = assert_error(Boards:get_by_id(self.params.id))
+  local board = assert_error(Boards:get(self.params.id))
   board.announcements = board:get_announcements()
   return {
     status = ngx.HTTP_OK,

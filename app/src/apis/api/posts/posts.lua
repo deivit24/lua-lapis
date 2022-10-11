@@ -5,11 +5,13 @@ local assert_valid = require("lapis.validate").assert_valid
 local trim_filter  = require("lapis.util").trim_filter
 local models       = require("models")
 local Posts        = models.posts
+local Boards       = models.boards
 
 function action:GET()
-  local board_id = tonumber(self.params.board_id)
+  local board_id = self.params.board_id
+  local board = Boards:get(board_id)
 
-  local posts = assert_error(Posts:get_board_posts(board_id, self.req.parsed_url.query))
+  local posts = assert_error(Posts:get_board_posts(board.id, self.req.parsed_url.query))
   return {
     status = ngx.HTTP_OK,
     json = {

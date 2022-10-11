@@ -6,7 +6,7 @@
         <ul style="list-style: none; text-align: left">
           <li
             class="board-list"
-            @click="$router.push('/boards/' + board.id)"
+            @click="$router.push('/boards/' + board.short_name)"
             v-for="board in cat.boards"
             :key="board.name"
           >
