@@ -76,6 +76,7 @@
         <div v-if="!loadingPosts">
           <template v-for="post in posts">
             <board-post-card :post="post" :key="post.id" />
+            <v-divider class="mx-5" :key="post.id + 100"></v-divider>
           </template>
         </div>
         <div v-if="Object.keys(posts).length === 0">
@@ -156,7 +157,7 @@ export default {
         this.loadingPosts = true;
         const res = await BoardsApi.getBoardPosts(id, banned);
         this.posts = res.posts;
-        console.log(res.posts);
+        if (!res.posts.length) this.posts = [];
       } catch (error) {
         console.error(error);
       } finally {
