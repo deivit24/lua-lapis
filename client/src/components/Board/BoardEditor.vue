@@ -25,7 +25,11 @@
         ></v-checkbox>
       </v-col>
     </v-row>
-    <v-row no-gutters v-if="editor" class="text-left pa-2">
+    <v-row
+      no-gutters
+      v-if="editor && (verified || isAuth)"
+      class="text-left pa-2"
+    >
       <v-btn
         @click="editor.chain().focus().toggleBold().run()"
         :class="[{ 'is-active': editor.isActive('bold') }, 'tool-btn']"
@@ -119,7 +123,18 @@
         <v-icon>mdi-redo</v-icon>
       </v-btn>
     </v-row>
-    <editor-content class="text-left" :editor="editor" />
+    <editor-content
+      style="z-index: 100"
+      v-if="verified || isAuth"
+      class="text-left"
+      :editor="editor"
+    />
+    <div :style="verifiedStyle" v-if="!isAuth">
+      <lluv-recaptcha
+        @verified="verified = true"
+        @resetVerified="verified = false"
+      ></lluv-recaptcha>
+    </div>
     <span
       v-if="errorMessage"
       class="error--text text-left text-capitalize mb-0 ml-3"
@@ -169,11 +184,13 @@ import Link from "@tiptap/extension-link";
 import BoardLink from "./BoardLink";
 import { BoardsApi } from "../../services/boards";
 import { mapGetters } from "vuex";
+import LluvRecaptcha from "../reCaptcha/LluvRecaptcha.vue";
 
 export default {
   components: {
     EditorContent,
     BoardLink,
+    LluvRecaptcha,
   },
   props: {
     boardId: {
@@ -195,6 +212,7 @@ export default {
       subject: "",
       errorMessage: "",
       isLewd: false,
+      verified: false,
     };
   },
   watch: {
@@ -247,6 +265,11 @@ export default {
       authUser: "auth/user",
       isAuth: "auth/isLoggedIn",
     }),
+    verifiedStyle() {
+      return this.verified
+        ? "opacity: 0; height:0; pointer-events: none; position: fixed; bottom:0; right:0;  z-index: -1;"
+        : "";
+    },
   },
   methods: {
     createBase64Image: function (FileObject) {
@@ -292,24 +315,32 @@ export default {
     },
     async submit() {
       try {
-        const data = {
-          name: this.name == "" ? "Anonymous User" : this.name,
-          file_name: this.file?.name,
-          file_size: this.file?.size,
-          file_base64: this.base64,
-          body: this.editor.getHTML() == "<p></p>" ? "" : this.editor.getHTML(),
-          subject: this.subject,
-          lewd: this.isLewd,
-        };
-        if (!this.file) {
-          delete data.file_name;
-          delete data.file_size;
-          delete data.file_base64;
-        }
+        if (this.verified || this.isAuth) {
+          const data = {
+            name: this.name == "" ? "Anonymous User" : this.name,
+            file_name: this.file?.name,
+            file_size: this.file?.size,
+            file_base64: this.base64,
+            body:
+              this.editor.getHTML() == "<p></p>" ? "" : this.editor.getHTML(),
+            subject: this.subject,
+            lewd: this.isLewd,
+          };
+          if (!this.file) {
+            delete data.file_name;
+            delete data.file_size;
+            delete data.file_base64;
+          }
 
-        const res = await BoardsApi.createBoardPost(this.boardId, data);
-        this.$emit("newPost", res.post);
-        this.reset();
+          const res = await BoardsApi.createBoardPost(this.boardId, data);
+          this.$emit("newPost", res.post);
+          this.reset();
+        } else {
+          this.errorMessage = "Nice try bot";
+          setTimeout(() => {
+            this.errorMessage = "";
+          }, 5000);
+        }
       } catch (e) {
         this.errorMessage = e.response.data[0];
         setTimeout(() => {

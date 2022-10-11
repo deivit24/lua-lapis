@@ -17,7 +17,7 @@
 
     <v-card-text>
       <v-row no-gutters>
-        <v-col cols="4" v-if="boardPost.file_base64">
+        <v-col cols="5" v-if="boardPost.file_base64">
           <v-img
             contain
             height="auto"
@@ -29,7 +29,7 @@
           >
           </v-img>
         </v-col>
-        <v-col :cols="boardPost.file_base64 ? 8 : 12">
+        <v-col :cols="boardPost.file_base64 ? 7 : 12">
           <div :class="lewdClass" v-html="boardPost.body"></div>
         </v-col>
       </v-row>
@@ -187,16 +187,13 @@ export default {
     },
     async submitComment(comment, commentId = 0) {
       try {
-        this.comment = comment;
-        const data = {
-          body: this.comment,
-          comment_id: commentId,
-        };
+        comment.comment_id = commentId;
         const res = await BoardsApi.creatComment(
           this.boardPost.board_id,
           this.boardPost.id,
-          data
+          comment
         );
+
         res.comment.post_id = parseInt(res.comment.post_id);
         if (res.comment.comment_id == 0) {
           this.comments.push(res.comment);

@@ -39,6 +39,8 @@ function Comments:get_post_comments(post_id, page)
       c.created_at,
       c.user_id,
       c.body,
+      c.file_base64,
+      c.file_name,
       (select count(*) from comments where comment_id=c.id and c.comment_id = 0 ) as reply_count,
       FALSE as show
 		FROM comments c

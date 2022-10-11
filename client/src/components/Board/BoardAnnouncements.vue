@@ -1,5 +1,5 @@
 <template>
-  <div class="px-3">
+  <div class="px-2 mt-2">
     <v-alert
       v-for="announcement in announcements"
       :key="announcement.id"

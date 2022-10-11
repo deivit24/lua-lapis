@@ -68,7 +68,7 @@
           </v-card>
         </v-dialog>
       </v-col>
-      <v-col cols="12" id="posts" class="mt-5">
+      <v-col cols="12" id="posts" class="mt-3">
         <v-skeleton-loader
           v-if="loadingPosts"
           type="list-item-avatar, divider, list-item-three-line, card-heading, image, actions"
