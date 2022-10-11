@@ -1,5 +1,5 @@
 <template>
-  <div class="ml-4" v-if="show">
+  <div class="pl-4" v-if="show">
     <template v-for="reply in replies">
       <v-list-item
         style="border-left: 5px solid lightgrey"
@@ -37,7 +37,6 @@
       </v-list-item>
     </template>
     <v-row no-gutters>
-      <v-spacer></v-spacer>
       <v-pagination
         class="mr-4"
         dense

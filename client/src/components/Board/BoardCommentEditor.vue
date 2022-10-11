@@ -115,14 +115,13 @@ export default {
     editor: null,
     file: null,
     display: "d-none",
-    base64: null,
+    file_base64: null,
   }),
   watch: {
     file(value) {
       if (value) {
         this.display = "";
         this.createBase64Image(value);
-        console.log(this.base64);
       } else {
         this.display = "d-none";
         this.base64 = null;
@@ -147,7 +146,7 @@ export default {
     createBase64Image: function (FileObject) {
       const reader = new FileReader();
       reader.onload = (event) => {
-        this.base64 = event.target.result;
+        this.file_base64 = event.target.result;
       };
       reader.readAsDataURL(FileObject);
     },
@@ -159,10 +158,18 @@ export default {
       const value = this.editor.getHTML();
       const data = {
         body: value,
+        file_name: this.file?.name,
+        file_size: this.file?.file_size,
+        file_base64: this.file_base64,
       };
-      console.log(data);
+      if (!this.file) {
+        delete data.file_name;
+        delete data.file_size;
+        delete data.file_base64;
+      }
       if (value === "<p></p>") return;
-      this.$emit("submit", value);
+      console.log(data);
+      this.$emit("submit", data);
     },
     openFileSelector() {
       document.getElementById("commentFileUpload").click();

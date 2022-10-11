@@ -29,6 +29,9 @@ function action:POST()
     comment_id = self.params.comment_id,
     reply_id = self.params.reply_id
   }
+  params.file_base64 = self.params.file_base64 or nil
+  params.file_name = self.params.file_name or nil
+  params.file_size = self.params.file_size or nil
   params.ip = self.req.headers["X-Real-IP"] or self.req.remote_addr
   trim_filter(params)
   assert_valid(params, Comments.valid_record)

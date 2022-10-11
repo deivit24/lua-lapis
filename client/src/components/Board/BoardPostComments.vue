@@ -23,10 +23,23 @@
               >[ reply ]</v-btn
             >
           </v-list-item-title>
-          <v-list-item-subtitle
-            class="mt-2"
-            v-html="comment.body"
-          ></v-list-item-subtitle>
+          <v-list-item-subtitle class="mt-2">
+            <v-row no-gutters>
+              <v-col cols="4" v-if="comment.file_base64">
+                <img
+                  contain
+                  height="auto"
+                  class="px-3"
+                  width="100%"
+                  :alt="comment.file_name"
+                  :src="comment.file_base64"
+                />
+              </v-col>
+              <v-col :cols="comment.file_base64 ? 8 : 12">
+                <div v-html="comment.body"></div>
+              </v-col>
+            </v-row>
+          </v-list-item-subtitle>
           <board-post-comment-replies
             :show="comment.show"
             :post-id="comment.post_id"
