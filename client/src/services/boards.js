@@ -52,10 +52,10 @@ export const BoardsApi = {
     );
     return res.data;
   },
-  getAllReports: async (banned = true) => {
+  getAllReports: async (banned = true, comments = false) => {
     const res = await apiService.get(`/reports`, {
       headers: authHeader(),
-      params: { banned: banned },
+      params: { banned: banned, comments: comments },
     });
     return res.data;
   },

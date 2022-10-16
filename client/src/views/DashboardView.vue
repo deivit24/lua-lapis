@@ -7,7 +7,8 @@
         <v-tab href="#boards"> Boards </v-tab>
         <v-tab href="#users"> Users </v-tab>
         <v-tab href="#bans"> Bans </v-tab>
-        <v-tab href="#reports"> Reports </v-tab>
+        <v-tab href="#postReports"> Post Reports </v-tab>
+        <v-tab href="#commentReports"> Comment Reports </v-tab>
       </v-tabs>
 
       <v-tabs-items v-model="tab">
@@ -26,9 +27,14 @@
             <h1>Bans</h1>
           </v-card>
         </v-tab-item>
-        <v-tab-item value="reports">
+        <v-tab-item value="postReports">
           <v-card flat>
             <board-reports-table />
+          </v-card>
+        </v-tab-item>
+        <v-tab-item value="commentReports">
+          <v-card flat>
+            <board-comment-reports-table />
           </v-card>
         </v-tab-item>
       </v-tabs-items>
@@ -38,6 +44,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import BoardCommentReportsTable from "../components/Board/BoardCommentReportsTable";
 import BoardReportsTable from "../components/Board/BoardReportsTable";
 import BoardTable from "../components/Board/BoardTable";
 export default {
@@ -45,6 +52,7 @@ export default {
   components: {
     BoardTable,
     BoardReportsTable,
+    BoardCommentReportsTable,
   },
   data: () => ({
     tab: null,

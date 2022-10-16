@@ -89,7 +89,10 @@ return {
     schema.create_table("reports", {
       { "id", types.serial { unique = true, primary_key = true } },
       { "ip", types.varchar },
-      { "post_id", types.integer },
+      { "post_id", types.integer, { null = true } },
+      { "comment_id", types.integer, { null = true } },
+      { "report_type", types.varchar },
+      { "report", types.varchar, { null = true } },
       { "created_at", types.time },
     })
 
