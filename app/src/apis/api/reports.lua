@@ -9,5 +9,6 @@ app.name          = "api.reports."
 app.path          = "/api/reports"
 
 app:match("reports", "", capture({ on_error = handle, json_params(r2(require "apis.api.reports.all_reports")) }))
-
+app:match("reports_comment", "/comments/:comment_id",
+  capture({ on_error = handle, json_params(r2(require "apis.api.reports.reports_comment")) }))
 return app

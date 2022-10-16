@@ -14,7 +14,6 @@
             <span style="font-size: 0.875rem">
               commented {{ formatDate(comment.created_at) }}</span
             >
-            -
             <v-btn
               text
               color="primary"
@@ -22,6 +21,21 @@
               @click="openReply(comment, false)"
               >[ reply ]</v-btn
             >
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="openReport(comment)"
+                  text
+                  color="error"
+                  x-small
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  [ report ]
+                </v-btn>
+              </template>
+              <span> Report Commnet </span>
+            </v-tooltip>
           </v-list-item-title>
           <v-list-item-subtitle class="mt-2">
             <v-row no-gutters>
@@ -80,16 +94,25 @@
       @close="closeReply"
       @send="reply"
     />
+    <report-dialog
+      :dialog="reportDialog"
+      name="Reporting Comment"
+      @close="reportDialog = false"
+      @send="report"
+    />
   </v-list>
 </template>
 
 <script>
 import moment from "moment";
+import { mapActions } from "vuex";
 import ReplyDialog from "../Dialogs/ReplyDialog";
 import BoardPostCommentReplies from "./BoardPostCommentReplies";
+import { ReportsApi } from "../../services/reports";
+import ReportDialog from "../Dialogs/ReportDialog";
 export default {
   name: "BoardPostComments",
-  components: { ReplyDialog, BoardPostCommentReplies },
+  components: { ReplyDialog, BoardPostCommentReplies, ReportDialog },
   props: {
     comments: {
       type: Array,
@@ -98,6 +121,7 @@ export default {
   },
   data: () => ({
     replayDialog: false,
+    reportDialog: false,
     replyName: "",
     commentId: 0,
     replyId: 0,
@@ -112,6 +136,9 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      addNotification: "notifications/addNotification",
+    }),
     async showReplies(commentId, show) {
       const found = this.dataComments.filter((c) => c.id == commentId)[0];
 
@@ -134,6 +161,35 @@ export default {
 
       this.replyName = comment.name;
       this.replayDialog = true;
+    },
+    openReport(comment) {
+      this.commentId = comment.id;
+      this.reportDialog = true;
+    },
+    async report(reportType, report) {
+      await this.reportComment(this.commentId, reportType, report);
+      this.reportDialog = false;
+    },
+    async reportComment(commentId, reportType, report) {
+      try {
+        // TODO need to change thwe api to not need the comment id as a param
+        const data = {
+          comment_id: commentId,
+          report_type: reportType,
+          report: report,
+        };
+        await ReportsApi.createCommentReport(commentId, data);
+        this.addNotification({
+          message: "Comment successfully reported",
+          type: "success",
+        });
+      } catch (error) {
+        console.error(error);
+        this.addNotification({
+          message: "Comment already reported",
+          type: "error",
+        });
+      }
     },
     closeReply() {
       this.replayDialog = false;

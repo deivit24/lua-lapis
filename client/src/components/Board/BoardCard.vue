@@ -2,7 +2,10 @@
   <v-col cols="12" md="4" :key="board.id" class="pa-2">
     <v-card height="180" elevation="0" outlined>
       <v-card-text style="position: relative; height: 100%">
-        <h3 class="mb-0 title" @click="$router.push('/boards/' + board.short_name)">
+        <h3
+          class="mb-0 title"
+          @click="$router.push('/boards/' + board.short_name)"
+        >
           /{{ board.short_name }}/ - {{ board.name }}
         </h3>
         <p class="mb-0">
