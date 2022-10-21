@@ -55,7 +55,7 @@
             x-small
             v-bind="attrs"
             v-on="on"
-            @click="report"
+            @click="openReport"
             text
             color="warning"
           >
@@ -97,6 +97,12 @@
         next-icon="mdi-menu-right"
       ></v-pagination>
     </v-row>
+    <report-dialog
+      :dialog="dialog"
+      @close="dialog = false"
+      name="Report Post"
+      @send="report"
+    />
   </v-card>
 </template>
 
@@ -105,9 +111,10 @@ import moment from "moment";
 import { mapGetters, mapActions } from "vuex";
 import { BoardsApi } from "../../services/boards";
 import BoardPostComments from "./BoardPostComments.vue";
+import ReportDialog from "../Dialogs/ReportDialog.vue";
 import BoardCommentEditor from "./BoardCommentEditor.vue";
 export default {
-  components: { BoardPostComments, BoardCommentEditor },
+  components: { BoardPostComments, BoardCommentEditor, ReportDialog },
   name: "BoardPostCard",
   props: {
     post: {
@@ -123,6 +130,7 @@ export default {
     boardPost: {},
     comments: [],
     comment: "",
+    dialog: false,
     page: 1,
     show: false,
   }),
@@ -152,6 +160,9 @@ export default {
     ...mapActions({
       addNotification: "notifications/addNotification",
     }),
+    openReport() {
+      this.dialog = true;
+    },
     formatDate(date) {
       return moment(date).utc(true).fromNow();
     },
@@ -166,17 +177,21 @@ export default {
     removeLewd() {
       this.boardPost.lewd = false;
     },
-    async report() {
+    async report(reportType, report) {
       try {
         await BoardsApi.createReport(
           this.boardPost.board_id,
           this.boardPost.id,
-          {}
+          {
+            report_type: reportType,
+            report: report,
+          }
         );
         this.addNotification({
           message: "Post Successfully reported",
           type: "success",
         });
+        this.dialog = false;
       } catch (error) {
         console.error(error);
         this.addNotification({

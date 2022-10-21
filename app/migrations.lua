@@ -91,7 +91,7 @@ return {
       { "ip", types.varchar },
       { "post_id", types.integer, { null = true } },
       { "comment_id", types.integer, { null = true } },
-      { "report_type", types.varchar },
+      { "report_type", types.varchar, { null = true } },
       { "report", types.varchar, { null = true } },
       { "created_at", types.time },
     })

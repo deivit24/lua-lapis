@@ -102,7 +102,7 @@ export default {
       addNotification: "notifications/addNotification",
     }),
     async getReports() {
-      const res = await BoardsApi.getAllReports(true);
+      const res = await BoardsApi.getAllReports(false, false);
       this.reports = res.reports;
     },
     async viewPost(id) {

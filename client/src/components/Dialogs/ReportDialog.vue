@@ -2,7 +2,7 @@
   <v-dialog width="400px" persistent v-model="reportDialog">
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-card flat>
-        <v-card-title> {{}}</v-card-title>
+        <v-card-title> {{ name }}</v-card-title>
         <v-card-text class="pb-0">
           <v-select
             outlined
@@ -75,6 +75,7 @@ export default {
       "Inapropriate Content",
       "Broke Rules",
       "Not tagged as 'Lewd'",
+      "Other",
     ],
   }),
   watch: {
