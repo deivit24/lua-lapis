@@ -22,6 +22,8 @@ function action:POST()
   -- Validate parameters
   local params = {
     post_id = self.params.post_id,
+    report_type = self.params.report_type,
+    report = self.params.report,
     created_at = os.date(),
   }
 

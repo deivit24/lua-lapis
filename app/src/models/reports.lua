@@ -19,6 +19,7 @@ Reports.valid_record = {
 function Reports:new(params)
   -- Check if ip already reported
   local report_exist = self:get(params.ip, params.post_id)
+  print("MADE IT HERE")
   if report_exist then
     return false
   end
