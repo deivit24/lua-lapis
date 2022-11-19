@@ -92,19 +92,17 @@ function Reports:all_comment_reports()
 
   local sql = [[
     SELECT
+      reports.id,
       reports.comment_id, 
+      reports.report_type,
+      reports.report,
+      reports.created_at,
       comments.name, 
-      comments.body, comments.ip,
-      COUNT (reports.comment_id)
+      comments.body, comments.ip
     FROM
       reports, comments
     WHERE reports.comment_id = comments.id AND comments.banned = false
-    GROUP BY
-      reports.comment_id,
-      comments.name, 
-      comments.body, 
-      comments.ip 
-    ORDER BY COUNT(reports.comment_id) DESC
+    ORDER BY reports.created_at DESC
 	]]
   local reports = db.query(sql)
 
