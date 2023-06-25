@@ -10,6 +10,7 @@ logs
 *.*~
 *.compiled
 *.out
+*.env
 
 # Unignore Files
 !.keep

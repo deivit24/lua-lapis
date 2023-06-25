@@ -17,19 +17,29 @@ Ended up using a docker image to get lapis to work
 
 ## BASIC USAGE
 
-### Create tokens
+### Create .env file
 
-create a token.lua file in `data/secrets` directory
+First you must create a `.env` file from the root
 
-add:
+run:
 
-```lua
-local token = "CHANGE_ME"
-
-return token
+```shell
+touch .env
 ```
 
-The secret token should be a random string of characters between 40 and 60 characters in length. Change CHANGE_ME to your secret token. Keep this token extremely safe, it is the backbone of security on Lapis! Right now it's a simple todo app but anyone can build on this whenever you want to start adding authentication. Doesn't do anything for now.
+Paste this to the `.env` file:
+
+```
+LAPIS_CONFIG=development
+SECRET=CHANGE_ME
+HOST=psql
+USER=postgres
+PASSWORD=CHANGE_ME
+DATABASE=lapis_db
+PORT=9090
+```
+
+The secret token should be a random string of characters between 40 and 60 characters in length. Change CHANGE_ME to your secret token. Keep this token extremely safe, it is the backbone of security on Lapis! Right now it's a simple todo app but anyone can build on this whenever you want to start adding authentication. Doesn't do anything for now. Samething for the password
 
 from root run:
 `source dev.sh`
