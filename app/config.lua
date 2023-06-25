@@ -1,24 +1,32 @@
-local config = require "lapis.config"
-local secret = assert(loadfile("../data/secrets/token.lua"))()
-
+local config     = require "lapis.config"
+local secret     = os.getenv("SECRET") or "iamaweaksecret"
 -- Use rewrite rules to create 'boards.' and 'static.' subdomains
 -- Currently doesn't work, leave this as false!
 local subdomains = false
 
 -- Maximum file size (update this in scripts.js too!)
-local body_size = "15m"
+local body_size  = "15m"
 
 -- Maximum comment size (update this in scripts.js too!)
-local text_size = 10000
+local text_size  = 10000
 
 -- Path to your lua libraries (LuaRocks and OpenResty)
-local lua_path  = "./src/?.lua;./src/?/init.lua"
-local lua_cpath = ""
+local lua_path   = "./src/?.lua;./src/?/init.lua"
+local lua_cpath  = ""
+
+-- Psql env variables
+local host       = os.getenv("HOST")
+local user       = os.getenv("USER")
+local password   = os.getenv("PASSWORD")
+local database   = os.getenv("DATABASE")
+
+-- Port
+local port       = os.getenv("PORT")
 
 config("development", {
 	site_name  = "[DEVEL] Lapis",
 	code_cache = "on",
-	port       = 9090,
+	port       = port,
 	secret     = secret,
 	subdomains = subdomains,
 	body_size  = body_size,
@@ -26,17 +34,17 @@ config("development", {
 	lua_path   = lua_path,
 	lua_cpath  = lua_cpath,
 	postgres   = {
-		host     = "psql",
-		user     = "postgres",
-		password = "",
-		database = "lapis_db"
+		host     = host,
+		user     = user,
+		password = password,
+		database = database
 	},
 })
 
 config("production", {
 	code_cache = "on",
 	site_name  = "Lapis-chan",
-	port       = 80,
+	port       = port,
 	secret     = secret,
 	subdomains = subdomains,
 	body_size  = body_size,
@@ -44,10 +52,10 @@ config("production", {
 	lua_path   = lua_path,
 	lua_cpath  = lua_cpath,
 	postgres   = {
-		host     = "psql",
-		user     = "postgres",
-		password = "",
-		database = "lapis_db"
+		host     = host,
+		user     = user,
+		password = password,
+		database = database
 	},
 })
 
@@ -61,9 +69,9 @@ config("test", {
 	lua_path   = lua_path,
 	lua_cpath  = lua_cpath,
 	postgres   = {
-		host     = "psql",
-		user     = "postgres",
-		password = "",
-		database = "lapis_db_test"
+		host     = host,
+		user     = user,
+		password = password,
+		database = database
 	},
 })

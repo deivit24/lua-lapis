@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker-compose --env-file .env.dev down -v; docker-compose --env-file .env.dev up --build
+docker-compose --env-file .env down -v; docker-compose --env-file .env up --build
