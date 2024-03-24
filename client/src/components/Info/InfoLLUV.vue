@@ -9,11 +9,14 @@
     </v-system-bar>
     <v-card-text>
       LLUV chan is a simple image-based bulletin board where anyone can post
-      comments and share images. There are boards dedicated to a variety of
-      programming topics, from web development to game development. Users do not
-      need to register an account before participating in the community. Feel
-      free to click on a board below that interests you and jump right in! LLUV
-      stands for Lapis, Lua Vue. It is the stack used to create this app.
+      comments and share images. This was heavily inspired by
+      <a href="https://github.com/karai17/lapis-chan" target="_blank"
+        >lapis-chan</a
+      >. There are boards dedicated to a variety of programming topics, from web
+      development to game development. Users do not need to register an account
+      before participating in the community. Feel free to click on a board below
+      that interests you and jump right in! LLUV stands for Lapis, Lua and Vue.
+      It is the stack used to create this app.
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
