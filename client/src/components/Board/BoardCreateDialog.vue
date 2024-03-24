@@ -90,6 +90,7 @@ export default {
     subText: "",
     rules: "",
     category: null,
+    categories: [],
   }),
   props: {
     createDialog: {
@@ -113,7 +114,6 @@ export default {
     async getCategories() {
       const res = await CategoryAPI.getCategories();
       this.categories = res.categories;
-      console.log(this.categories);
     },
     async createBoard() {
       try {

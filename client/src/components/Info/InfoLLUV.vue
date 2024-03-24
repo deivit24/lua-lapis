@@ -16,7 +16,7 @@
       development to game development. Users do not need to register an account
       before participating in the community. Feel free to click on a board below
       that interests you and jump right in! LLUV stands for Lapis, Lua and Vue.
-      It is the stack used to create this app.
+      It is the stack used to create this app. This is a WIP!!
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
