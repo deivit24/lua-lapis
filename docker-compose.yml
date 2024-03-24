@@ -30,11 +30,7 @@ services:
     restart: unless-stopped
     environment: # Add environment variables here
       - LAPIS_CONFIG=${LAPIS_CONFIG}
-      - HOST=${HOST}
-      - USER=${USER}
-      - PASSWORD=${PASSWORD}
-      - DATABASE=${DATABASE}
-      - PORT=${PORT}
+      - SECRET=${SECRET}
 
     command: bash -c "/usr/local/bin/docker-entrypoint.sh ${LAPIS_CONFIG}"
 
