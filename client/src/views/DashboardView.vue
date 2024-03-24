@@ -19,7 +19,7 @@
         </v-tab-item>
         <v-tab-item value="users">
           <v-card flat>
-            <h1>USERS</h1>
+            <users-table />
           </v-card>
         </v-tab-item>
         <v-tab-item value="bans">
@@ -47,12 +47,14 @@ import { mapGetters } from "vuex";
 import BoardCommentReportsTable from "../components/Board/BoardCommentReportsTable";
 import BoardReportsTable from "../components/Board/BoardReportsTable";
 import BoardTable from "../components/Board/BoardTable";
+import UsersTable from "../components/Users/UsersTable";
 export default {
   name: "DashboardView",
   components: {
     BoardTable,
     BoardReportsTable,
     BoardCommentReportsTable,
+    UsersTable,
   },
   data: () => ({
     tab: null,

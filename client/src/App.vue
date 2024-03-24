@@ -41,6 +41,15 @@
             ><span>CREATE BOARD</span>]</v-btn
           >
         </div>
+        <div
+          class="d-flex justify-center align-center"
+          v-if="isAuth && authUser.role >= 8"
+        >
+          <v-btn small text color="primary" @click="createUsersDialog = true">
+            [<v-icon color="primary" small>mdi-account</v-icon
+            ><span>REGISTER USER</span>]</v-btn
+          >
+        </div>
         <div class="d-flex justify-center align-center">
           <v-btn small depressed color="transparent" @click="toggleDarkMode">
             [<v-icon small>{{ modeIcon }}</v-icon
@@ -91,6 +100,10 @@
       :create-dialog="createBoardDialog"
       @close="createBoardDialog = false"
     />
+    <users-create-dialog
+      :create-dialog="createUsersDialog"
+      @close="createUsersDialog = false"
+    />
     <v-main class="mt-5">
       <router-view />
     </v-main>
@@ -101,6 +114,7 @@
 import { mapActions, mapGetters } from "vuex";
 import AuthLogin from "./components/Auth/AuthLogin";
 import BoardCreateDialog from "./components/Board/BoardCreateDialog";
+import UsersCreateDialog from "./components/Users/UsersCreateDialog";
 import { rules, faqs } from "./consts";
 
 export default {
@@ -108,11 +122,13 @@ export default {
   components: {
     AuthLogin,
     BoardCreateDialog,
+    UsersCreateDialog,
   },
   data: () => ({
     darkMode: true,
     menu: false,
     createBoardDialog: false,
+    createUsersDialog: false,
     postion: { x: 0, y: 0 },
   }),
   created() {
