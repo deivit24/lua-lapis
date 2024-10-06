@@ -13,5 +13,5 @@ RUN npm install @vue/cli -g
 # copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY . .
 
-EXPOSE 8080
+EXPOSE 8081
 CMD ["npm", "run", "serve"]
