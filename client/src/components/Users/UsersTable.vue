@@ -6,6 +6,9 @@
       :items-per-page="10"
       class="elevation-1"
     >
+      <template v-slot:[`item.role`]="{ item }">
+        <span v-html="getRole(item.role)"></span>
+      </template>
       <template v-slot:[`item.actions`]="{ item }">
         <v-icon
           small
@@ -57,6 +60,12 @@ export default {
         value: "username",
       },
       {
+        text: "[ Role ]",
+        align: "start",
+        sortable: true,
+        value: "role",
+      },
+      {
         text: "",
         value: "actions",
         align: "end",
@@ -71,6 +80,22 @@ export default {
     ...mapActions({
       addNotification: "notifications/addNotification",
     }),
+    getRole(roleId) {
+      switch (roleId) {
+        case 1:
+          return "User";
+        case 6:
+          return "Janitor";
+        case 7:
+          return "MOD";
+        case 8:
+          return "Admin";
+        case 9:
+          return "Owner";
+        default:
+          return "Invalid User";
+      }
+    },
     async getUsers() {
       const res = await UsersApi.getAllUsers();
       this.users = res;
